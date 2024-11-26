@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 //Weboldalak elérhetőségének beállításai
 
 public class BejelentkezesController {
-    @GetMapping("/bejelentkezes")
+    @GetMapping("/")
     public String bejelentkezesFormMegnyitasa (Model model) {
         model.addAttribute("bejelentkezesFormMegnyitasa", new Felhasznalok());
         return "bejelentkezes";
