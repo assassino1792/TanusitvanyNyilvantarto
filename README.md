@@ -1,0 +1,2 @@
+# TanusitvanyNyilvantarto
+Szakdolgozat
