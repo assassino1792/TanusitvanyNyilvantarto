@@ -1,4 +1,4 @@
-package hu.nye.tanusitvanynyilvantarto.configuration;
+package hu.nye.tanusitvanynyilvantarto.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

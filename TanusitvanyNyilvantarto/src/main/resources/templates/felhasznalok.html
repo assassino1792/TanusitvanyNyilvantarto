@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Felhasználók</title>
+</head>
+<body>
+<h1>Felhasználók</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Felhasználónév</th>
+        <th>Vezetéknév</th>
+        <th>Keresztnév</th>
+        <th>Létrehozva</th>
+        <th>Módosítva</th>
+        <th>Műveletek</th>
+    </tr>
+    <tr th:each="felhasznalo : ${felhasznalok}">
+        <td th:text="${felhasznalo.id}"></td>
+        <td th:text="${felhasznalo.felhasznalonev}"></td>
+        <td th:text="${felhasznalo.vezeteknev}"></td>
+        <td th:text="${felhasznalo.keresztnev}"></td>
+        <td th:text="${felhasznalo.letrehozva}"></td>
+        <td th:text="${felhasznalo.modositva}"></td>
+        <td>
+            <form th:action="@{/felhasznalok/delete/{id}(id=${felhasznalo.id})}" method="post">
+                <button type="submit">Törlés</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<h2>Új felhasználó hozzáadása</h2>
+<form action="/felhasznalok/add" method="post">
+    <input type="text" name="felhasznalonev" placeholder="Felhasználónév" required>
+    <input type="text" name="vezeteknev" placeholder="Vezetéknév" required>
+    <input type="text" name="keresztnev" placeholder="Keresztnév" required>
+    <button type="submit">Hozzáadás</button>
+</form>
+</body>
+</html>

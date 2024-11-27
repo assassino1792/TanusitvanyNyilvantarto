@@ -31,8 +31,8 @@ public class Tanusitvanyok {
     @Column (name = "statusz")
     private String statusz;
 
-    @Column (name = "kiallito")
-    private String kiallito;
+    @Column (name = "kiallito_neve")
+    private String kiallitoNeve;
 
     @Column (name = "letrehozva", updatable = false)
     private LocalDate letrehozva;
@@ -41,14 +41,14 @@ public class Tanusitvanyok {
     private LocalDate modositva;
 
     public Tanusitvanyok(Long id, String szerverNev, String tanusitvanyTipus, LocalDate kezdetiIdo, LocalDate lejaratiIdo,
-                         String statusz, String kiallito, LocalDate letrehozva, LocalDate modositva) {
+                         String statusz, String kiallitoNeve, LocalDate letrehozva, LocalDate modositva) {
         this.id = id;
         this.szerverNev = szerverNev;
         this.tanusitvanyTipus = tanusitvanyTipus;
         this.kezdetiIdo = kezdetiIdo;
         this.lejaratiIdo = lejaratiIdo;
         this.statusz = statusz;
-        this.kiallito = kiallito;
+        this.kiallitoNeve = kiallitoNeve;
         this.letrehozva = letrehozva;
         this.modositva = modositva;
     }
