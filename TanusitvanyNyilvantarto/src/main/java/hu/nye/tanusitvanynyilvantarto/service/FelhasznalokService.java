@@ -31,6 +31,9 @@ public class FelhasznalokService {
     public void hozzaad(FelhasznalokModel model) {
         felhasznalokRepository.save(convertToEntity(model));
     }
+    public List<Felhasznalok> getAllFelhasznalok() {
+        return felhasznalokRepository.findAll();
+    }
 
    //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {

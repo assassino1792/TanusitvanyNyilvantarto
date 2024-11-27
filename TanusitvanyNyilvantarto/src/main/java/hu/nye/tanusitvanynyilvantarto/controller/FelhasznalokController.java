@@ -23,11 +23,12 @@ public class FelhasznalokController {
     }
 
     @GetMapping
-    public String getAllUsers(Model model) {
-        List<FelhasznalokModel> felhasznalokLeKerdezese = felhasznalokService.findAllModels();
-        model.addAttribute("felhasznalok", felhasznalokLeKerdezese);
-        return "felhasznalok";
+    public String felhasznalok(Model model) {
+        List<FelhasznalokModel> felhasznalok = felhasznalokService.findAllModels();
+        model.addAttribute("felhasznalok", felhasznalok);
+        return "felhasznalok :: content";
     }
+
 
     @PostMapping("/add")
     public String addUser(@ModelAttribute FelhasznalokModel felhasznalo) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,13 +7,22 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/felhasznalok.css">
+
 
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
     <title>Kezdőoldal</title>
+
+    <style>
+        .felhasznalokDiv {
+            padding: 50px 50px 50px 50px;
+        }
+    </style>
 </head>
 <body>
+
 <nav class="sidebar close">
     <header>
         <div class="image-text">
@@ -62,7 +71,7 @@
                 </li>
 
                 <li class="nav-link">
-                    <a href="felhasznalok">
+                    <a href="#" onclick="loadContent('/felhasznalok')">
                         <i class='bx bx-user icon' ></i>
                         <span class="text nav-text">Felhasználók</span>
                     </a>
@@ -103,11 +112,34 @@
     </div>
 
 </nav>
+<div th:fragment="content">
+    <section class="home">
+        <div class="text">Tanúsítvány nyilvántartó rendszer</div>
+        <div class="felhasznalokDiv" id="content-section"></div>
+    </section>
 
-<section class="home">
-    <div class="text">Tanúsítvány nyilvántartó rendszer</div>
-</section>
-
+</div>
 <script src="/js/kezdooldalScript.js"></script>
+<script>
+function loadContent(url) {
+const contentSection = document.getElementById('content-section');
+
+fetch(url)
+.then(response => {
+if (!response.ok) {
+throw new Error('Hiba történt a tartalom betöltése során.');
+}
+return response.text();
+})
+.then(html => {
+contentSection.innerHTML = html;
+})
+.catch(error => {
+console.error('Hiba:', error);
+contentSection.innerHTML = '<p>Nem sikerült betölteni a tartalmat.</p>';
+});
+}
+</script>
+
 </body>
 </html>
