@@ -1,74 +1,10 @@
 /* felhasznalok.css */
 
-/* Oldal specifikus stílusok */
 
 
-/* Címsor stílusai */
-h1 {
-    color: #343a40; /* Sötétszürke szín */
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* Táblázat stílusok */
-.table-container {
-    margin: 50px; /* 50px margin minden irányból */
-    padding: 10px; /* Kicsi belső térköz */
-    background-color: white; /* Fehér háttér */
-    border-radius: 8px; /* Lekerekített sarkok */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Árnyék */
-}
-
-.table {
-    width: 100%; /* Teljes szélesség */
-    border-collapse: collapse;
-}
-
-.table th, .table td {
-    text-align: center; /* Középre igazított szöveg */
-    padding: 15px; /* Kényelmesebb térköz */
-    border: 1px solid #ddd; /* Világos szürke szegély */
-}
-
-.table th {
-    background-color: #007bff; /* Fejléc színe */
-    color: white; /* Fejléc szövegszíne */
-}
-
-.table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9; /* Szürke csíkozás a sorokhoz */
-}
-
-.table tbody tr:nth-child(even) {
-    background-color: #ffffff; /* Fehér háttér a páros sorokhoz */
-}
 
 
-/* Gomb stílusok */
-button {
-    background-color: #28a745; /* Zöld szín */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
 
-button:hover {
-    background-color: #218838; /* Sötétebb zöld hover */
-}
 
-/* Form stílusok */
-form input {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-}
 
-form button {
-    width: 100%;
-}
+

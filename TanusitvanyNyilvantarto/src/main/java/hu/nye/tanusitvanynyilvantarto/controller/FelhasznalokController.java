@@ -26,13 +26,13 @@ public class FelhasznalokController {
     public String felhasznalok(Model model) {
         List<FelhasznalokModel> felhasznalok = felhasznalokService.findAllModels();
         model.addAttribute("felhasznalok", felhasznalok);
-        return "felhasznalok :: content";
+        return "felhasznalok :: felhasznalokcontent";
     }
 
 
     @PostMapping("/add")
     public String addUser(@ModelAttribute FelhasznalokModel felhasznalo) {
         felhasznalokService.hozzaad(felhasznalo);
-        return "redirect:/felhasznalok";
+        return "redirect:/kezdooldal";
     }
 }

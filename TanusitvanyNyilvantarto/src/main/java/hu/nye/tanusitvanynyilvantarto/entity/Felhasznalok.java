@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -19,40 +20,44 @@ public class Felhasznalok {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name="felhasznalonev", nullable = false)
+    @Column(name = "felhasznalonev", nullable = false)
     private String felhasznaloNev;
 
-    @Column (name="vezeteknev", nullable = false)
+    @Column(name = "vezeteknev", nullable = false)
     private String vezetekNev;
 
-    @Column (name="keresztnev", nullable = false)
+    @Column(name = "keresztnev", nullable = false)
     private String keresztNev;
 
-    @Column (name = "letrehozva", updatable = false)
-    private Timestamp letrehozva;
+    // Adatbázisba mentett natív LocalDateTime
+    @Column(name = "letrehozva", updatable = false, nullable = false)
+    private LocalDateTime letrehozva;
 
-    @Column (name = "modositva")
-    private LocalDate modositva;
+    // Nem mentjük az adatbázisba, csak formázáshoz használjuk
+    @Transient
+    private String formazottDatum;
 
-    public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev,
-                        Timestamp letrehozva, LocalDate modositva) {
+    public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev, LocalDateTime letrehozva, String formazottDatum) {
         this.id = id;
         this.felhasznaloNev = felhasznaloNev;
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
         this.letrehozva = letrehozva;
-        this.modositva = modositva;
+        this.formazottDatum = formazottDatum;
     }
-/*
+
+    // Automatikus beállítás mentés előtt
     @PrePersist
-    protected void onCreate() {
-        this.letrehozva = ;
+    public void onCreate() {
+        this.letrehozva = LocalDateTime.now();
     }
 
- */
-    @PreUpdate
-    protected void onUpdate() {
-        this.modositva = LocalDate.now();
+    // Formázott dátum getter
+    public String getFormazottDatum() {
+        if (this.letrehozva != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+            return this.letrehozva.format(formatter); // Dátum formázása
+        }
+        return null;
     }
-
 }

@@ -1,0 +1,117 @@
+body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background-color: #E4E9F7;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar {
+            background: #fff;
+            transition: width 0.3s ease;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.closed {
+            width: 80px;
+        }
+
+        .sidebar.open {
+            width: 250px;
+        }
+
+        .sidebar .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar .menu-links li {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .menu-links li a {
+            text-decoration: none;
+            color: #707070;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .sidebar .menu-links li a .text {
+            white-space: nowrap;
+            overflow: hidden;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.closed .menu-links li a .text {
+            opacity: 0;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            margin: 20px;
+            cursor: pointer;
+            color: #695CFE;
+        }
+
+        .home {
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.closed ~ .home {
+            margin-left: 80px;
+        }
+
+        .sidebar .bottom-content {
+            margin-top: auto;
+            padding: 10px 20px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .toggle-switch .switch {
+            width: 40px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .switch::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s ease;
+        }
+
+        .switch.active {
+            background-color: #695CFE;
+        }
+
+        .switch.active::before {
+            left: 22px;
+        }

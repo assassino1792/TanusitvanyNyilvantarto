@@ -21,19 +21,20 @@ public class FelhasznalokService {
                 .map(this::convertToModel)
                 .collect(Collectors.toList());
     }
-
+/*
     public FelhasznalokModel findById(Long id) {
         return felhasznalokRepository.findById(id)
                 .map(this::convertToModel)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
     }
-
+*/
     public void hozzaad(FelhasznalokModel model) {
         felhasznalokRepository.save(convertToEntity(model));
     }
     public List<Felhasznalok> getAllFelhasznalok() {
         return felhasznalokRepository.findAll();
     }
+
 
    //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {
@@ -43,7 +44,8 @@ public class FelhasznalokService {
                 entity.getVezetekNev(),
                 entity.getKeresztNev(),
                 entity.getLetrehozva(),
-                entity.getModositva()
+                entity.getFormazottDatum()
+
         );
     }
 // Entitásra konvertálás
@@ -54,7 +56,7 @@ public class FelhasznalokService {
                 model.getVezeteknev(),
                 model.getKeresztnev(),
                 model.getLetrehozva(),
-                model.getModositva()
+                model.getFormazottDatum()
         );
     }
 
