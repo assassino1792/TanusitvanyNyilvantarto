@@ -29,35 +29,23 @@ public class Felhasznalok {
     @Column(name = "keresztnev", nullable = false)
     private String keresztNev;
 
-    // Adatbázisba mentett natív LocalDateTime
-    @Column(name = "letrehozva", updatable = false, nullable = false)
+    @Column(name = "letrehozva", updatable = false)
     private LocalDateTime letrehozva;
 
-    // Nem mentjük az adatbázisba, csak formázáshoz használjuk
-    @Transient
-    private String formazottDatum;
 
-    public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev, LocalDateTime letrehozva, String formazottDatum) {
+    public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev,
+                        LocalDateTime letrehozva) {
         this.id = id;
         this.felhasznaloNev = felhasznaloNev;
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
         this.letrehozva = letrehozva;
-        this.formazottDatum = formazottDatum;
     }
 
-    // Automatikus beállítás mentés előtt
     @PrePersist
     public void onCreate() {
         this.letrehozva = LocalDateTime.now();
     }
 
-    // Formázott dátum getter
-    public String getFormazottDatum() {
-        if (this.letrehozva != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
-            return this.letrehozva.format(formatter); // Dátum formázása
-        }
-        return null;
-    }
+
 }

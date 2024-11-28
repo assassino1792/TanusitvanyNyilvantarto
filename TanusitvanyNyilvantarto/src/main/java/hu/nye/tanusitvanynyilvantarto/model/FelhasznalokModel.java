@@ -23,6 +23,4 @@ public class FelhasznalokModel {
     private String vezeteknev;
     private String keresztnev;
     private LocalDateTime letrehozva;
-    private String formazottDatum;
-
 }

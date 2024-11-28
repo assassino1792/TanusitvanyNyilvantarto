@@ -5,10 +5,7 @@ import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.service.FelhasznalokService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,10 +26,25 @@ public class FelhasznalokController {
         return "felhasznalok :: felhasznalokcontent";
     }
 
-
     @PostMapping("/add")
     public String addUser(@ModelAttribute FelhasznalokModel felhasznalo) {
         felhasznalokService.hozzaad(felhasznalo);
         return "redirect:/kezdooldal";
     }
+
+    @PostMapping("/edit")
+    @ResponseBody
+    public String updateUserAjax(@RequestBody FelhasznalokModel felhasznalo) {
+        felhasznalokService.update(felhasznalo.getId(), felhasznalo);
+        return "Sikeres mentés";
+    }
+
+
+
+    @PostMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
+        felhasznalokService.deleteById(id);
+        return "redirect:/kezdooldal";
+    }
+
 }

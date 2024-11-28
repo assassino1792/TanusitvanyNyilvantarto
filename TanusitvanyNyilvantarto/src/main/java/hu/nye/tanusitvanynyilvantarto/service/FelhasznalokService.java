@@ -21,13 +21,13 @@ public class FelhasznalokService {
                 .map(this::convertToModel)
                 .collect(Collectors.toList());
     }
-/*
+
     public FelhasznalokModel findById(Long id) {
         return felhasznalokRepository.findById(id)
                 .map(this::convertToModel)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
     }
-*/
+
     public void hozzaad(FelhasznalokModel model) {
         felhasznalokRepository.save(convertToEntity(model));
     }
@@ -35,6 +35,22 @@ public class FelhasznalokService {
         return felhasznalokRepository.findAll();
     }
 
+    public void deleteById(Long id) {
+        if (!felhasznalokRepository.existsById(id)) {
+            throw new RuntimeException("Felhasználó nem található id: " + id);
+        }
+        felhasznalokRepository.deleteById(id);
+    }
+    public void update(Long id, FelhasznalokModel updatedModel) {
+        Felhasznalok existingUser = felhasznalokRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
+
+        existingUser.setFelhasznaloNev(updatedModel.getFelhasznalonev());
+        existingUser.setVezetekNev(updatedModel.getVezeteknev());
+        existingUser.setKeresztNev(updatedModel.getKeresztnev());
+
+        felhasznalokRepository.save(existingUser);
+    }
 
    //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {
@@ -43,9 +59,7 @@ public class FelhasznalokService {
                 entity.getFelhasznaloNev(),
                 entity.getVezetekNev(),
                 entity.getKeresztNev(),
-                entity.getLetrehozva(),
-                entity.getFormazottDatum()
-
+                entity.getLetrehozva()
         );
     }
 // Entitásra konvertálás
@@ -55,8 +69,7 @@ public class FelhasznalokService {
                 model.getFelhasznalonev(),
                 model.getVezeteknev(),
                 model.getKeresztnev(),
-                model.getLetrehozva(),
-                model.getFormazottDatum()
+                model.getLetrehozva()
         );
     }
 

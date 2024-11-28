@@ -1,8 +1,32 @@
 /* felhasznalok.css */
 
+     .mezok {
+         display: none;
+     }
 
+     .mezok .form-control {
+         display: inline-block;
+         width: auto;
+         margin-right: 10px;
+     }
 
+     .table {
+         border-radius: 10px;
+         overflow: hidden;
+     }
 
+     .table-bordered {
+         border: 1px solid #dee2e6;
+     }
+
+        .table th,
+        .table td {
+            text-align: center;
+        }
+
+        .td_muvelet {
+            width: 100px;
+        }
 
 
 
