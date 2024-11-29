@@ -45,6 +45,16 @@ public class FelhasznalokController {
         return "Sikeres mentés";
     }
 
+    @PostMapping("/updatepw/{id}")
+    public String updatePassword(@PathVariable("id") Long id, @RequestParam("jelszo") String jelszo, RedirectAttributes redirectAttributes) {
+        try {
+            felhasznalokService.updateJelszo(id, jelszo);
+            redirectAttributes.addFlashAttribute("successMessage", "A jelszó sikeresen frissítve.");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/felhasznalok";
+    }
 
 
     @PostMapping("/delete/{id}")

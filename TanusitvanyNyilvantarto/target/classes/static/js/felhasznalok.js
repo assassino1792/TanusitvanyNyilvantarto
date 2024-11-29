@@ -28,4 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
             loadContent('/felhasznalok');
         });
     }
-
+function loadContent(url) {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Hiba történt a tartalom betöltése során.');
+            }
+            return response.text();
+        })
+        .then(html => {
+            const contentContainer = document.querySelector('.home'); // Ide töltjük a tartalmat
+            if (contentContainer) {
+                contentContainer.innerHTML = html;
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}

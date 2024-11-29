@@ -4,6 +4,10 @@ import hu.nye.tanusitvanynyilvantarto.entity.Felhasznalok;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.repository.FelhasznalokRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +66,12 @@ public class FelhasznalokService {
 
         felhasznalokRepository.save(existingUser);
     }
-
+    public void updateJelszo(Long id, String ujJelszo) {
+        Felhasznalok existingUser = felhasznalokRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
+        existingUser.setJelszo(ujJelszo);
+        felhasznalokRepository.save(existingUser);
+    }
 
 
     //Modelre kovertálás

@@ -90,7 +90,8 @@
             <span th:text="${successMessage}"></span>
         </div>
 
-        <button class="btn btn-dark mt-3 mb-2" id="bt_hozzaadvagyelrejt">Felhasználó hozzáadása</button>
+        <button class="btn btn-dark mt-3 mb-2" id="bt_hozzaadvagyelrejt"><i class='bx bxs-user-plus'></i>
+            Felhasználó hozzáadása</button>
 
         <div class="kontenerosztaly" id="kontener" style="display: none;">
             <form action="/felhasznalok/add" method="post">
@@ -124,13 +125,13 @@
                     <td th:text="${felhasznalo.keresztnev}"></td>
                     <td th:text="${felhasznalo.email}"></td>
                     <td class="td_muvelet">
-                        <!-- Szerkesztés -->
                         <div class="d-inline-block">
-                            <form>
-                                <button type="button" class="btn btn-primary btn-sm" title="Jelszó módosítás">
-                                    <i class='bx bxs-key'></i></button>
-                            </form>
+                            <button class="btn btn-primary btn-sm openModal" data-bs-toggle="modal" data-bs-target="#passwordModal"
+                                    th:data-id="${felhasznalo.id}" title="Jelszó módosítás">
+                                <i class='bx bxs-key'></i>
+                            </button>
                         </div>
+
                         <div class="d-inline-block">
                             <form>
                                 <button type="button" class="btn btn-warning btn-sm" title="Szerkesztés">
@@ -154,6 +155,32 @@
     </div>
 
 
+    <!-- Modális -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Jelszó módosítása</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Form -->
+                <form id="passwordForm" method="post">
+                    <div class="modal-body">
+                        <label for="newPassword" class="form-label">Új jelszó:</label>
+                        <input type="password" id="newPassword" name="jelszo" class="form-control" placeholder="Új jelszó" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </section>
 
 <!-- Bootstrap JS -->
@@ -165,6 +192,24 @@
         sidebar.classList.toggle('closed');
         sidebar.classList.toggle('open');
     }
+</script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+     const openModalButtons = document.querySelectorAll(".openModal");
+     const formElement = document.getElementById("passwordForm");
+
+     // Modal megnyitása és action beállítása
+     openModalButtons.forEach(button => {
+         button.addEventListener("click", function () {
+             const userId = button.getAttribute("data-id");
+             formElement.action = `/felhasznalok/updatepw/${userId}`; // Dinamikus action
+         });
+     });
+ });
+
+
+
 </script>
 
 </body>
