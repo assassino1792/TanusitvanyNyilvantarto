@@ -7,10 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 
 @Getter
 @Setter
@@ -22,5 +20,7 @@ public class FelhasznalokModel {
     private String felhasznalonev;
     private String vezeteknev;
     private String keresztnev;
+    private String email;
+    private String jelszo;
     private LocalDateTime letrehozva;
-}
+    }

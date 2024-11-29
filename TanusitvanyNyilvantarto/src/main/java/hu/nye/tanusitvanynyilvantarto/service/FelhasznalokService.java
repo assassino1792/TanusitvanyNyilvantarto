@@ -52,23 +52,28 @@ public class FelhasznalokService {
         felhasznalokRepository.save(existingUser);
     }
 
-   //Modelre kovertálás
+    //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {
         return new FelhasznalokModel(
                 entity.getId(),
                 entity.getFelhasznaloNev(),
                 entity.getVezetekNev(),
                 entity.getKeresztNev(),
+                entity.getEmail(),
+                entity.getJelszo(),
                 entity.getLetrehozva()
+
         );
     }
-// Entitásra konvertálás
+    // Entitásra konvertálás
     private Felhasznalok convertToEntity(FelhasznalokModel model){
         return new Felhasznalok(
                 model.getId(),
                 model.getFelhasznalonev(),
                 model.getVezeteknev(),
                 model.getKeresztnev(),
+                model.getEmail(),
+                model.getJelszo(),
                 model.getLetrehozva()
         );
     }

@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @Getter
@@ -20,7 +21,7 @@ public class Felhasznalok {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "felhasznalonev", nullable = false)
+    @Column(name = "felhasznalonev", unique = true,nullable = false)
     private String felhasznaloNev;
 
     @Column(name = "vezeteknev", nullable = false)
@@ -29,16 +30,25 @@ public class Felhasznalok {
     @Column(name = "keresztnev", nullable = false)
     private String keresztNev;
 
+    @Column(name = "email",unique = true)
+    @Email
+    private String email;
+
+    @Column(name ="jelszo", nullable = false)
+    private String jelszo;
+
     @Column(name = "letrehozva", updatable = false)
     private LocalDateTime letrehozva;
 
 
-    public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev,
+    public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev, String email, String jelszo,
                         LocalDateTime letrehozva) {
         this.id = id;
         this.felhasznaloNev = felhasznaloNev;
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
+        this.email = email;
+        this.jelszo = jelszo;
         this.letrehozva = letrehozva;
     }
 
@@ -46,6 +56,4 @@ public class Felhasznalok {
     public void onCreate() {
         this.letrehozva = LocalDateTime.now();
     }
-
-
 }
