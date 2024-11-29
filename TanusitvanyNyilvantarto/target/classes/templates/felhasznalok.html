@@ -79,34 +79,30 @@
 </nav>
 
 <section class="home">
-    <div class="container">
-        <h1>Tanúsítvány nyilvántartó rendszer</h1>
-        <div id="content-section"></div>
-    </div>
-    <div>
-
+    <div class="sectionkepernyo">
+        <h1>Tanúsítvány Nyilvántartó Rendszer</h1>
         <h3 class="mt-3 mb-5">Felhasználók</h3>
 
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <span th:text="${successMessage}"></span>
+        </div>
 
+        <button class="btn btn-dark mt-3 mb-2" id="bt_hozzaadvagyelrejt">Felhasználó hozzáadása</button>
 
-        <button class="btn btn-dark mt-5 mb-2" id="bt_hozzaadvagyelrejt">Felhasználó hozzáadása</button>
-
-        <div class="kontenerosztaly" id="kontener">
+        <div class="kontenerosztaly" id="kontener" style="display: none;">
             <form action="/felhasznalok/add" method="post">
-
-                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-                    <span th:text="${errorMessage}"></span>
-                </div>
-                <div th:if="${successMessage}" class="alert alert-success" role="alert">
-                    <span th:text="${successMessage}"></span>
-                </div>
                 <div class="mezok mb-4">
                     <input type="text" name="felhasznalonev" class="form-control" placeholder="Felhasználónév" required>
                     <input type="text" name="vezeteknev" class="form-control" placeholder="Vezetéknév" required>
                     <input type="text" name="keresztnev" class="form-control" placeholder="Keresztnév" required>
-                    <input type="text" name="email" class="form-control" placeholder="Email" required>
+                    <input type="email" name="email" class="form-control" placeholder="Email" required>
                     <input type="password" name="jelszo" class="form-control" placeholder="Jelszó" required>
-                    <button type="submit" class="btn btn-success" title="Mentés"><i class='bx bx-save'></i></button>
+                    <button type="submit" class="btn btn-success" title="Mentés">
+                        <i class='bx bx-save'></i>
+                    </button>
                 </div>
             </form>
         </div>
@@ -131,10 +127,15 @@
                         <!-- Szerkesztés -->
                         <div class="d-inline-block">
                             <form>
+                                <button type="button" class="btn btn-primary btn-sm" title="Jelszó módosítás">
+                                    <i class='bx bxs-key'></i></button>
+                            </form>
+                        </div>
+                        <div class="d-inline-block">
+                            <form>
                                 <button type="button" class="btn btn-warning btn-sm" title="Szerkesztés">
                                     <i class='bx bx-edit-alt'></i>
                                 </button>
-
                             </form>
                         </div>
                         <!-- Törlés -->

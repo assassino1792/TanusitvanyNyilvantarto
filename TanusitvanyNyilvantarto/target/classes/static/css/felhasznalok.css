@@ -1,10 +1,10 @@
 /* felhasznalok.css */
 
-     .mezok {
+     #kontener {
          display: none;
      }
 
-     .mezok .form-control {
+     #kontener .form-control {
          display: inline-block;
          width: auto;
          margin-right: 10px;
@@ -19,24 +19,28 @@
          border: 1px solid #dee2e6;
      }
 
-        .table th,
-        .table td {
-            text-align: center;
+     .table th,
+     .table td {
+        text-align: center;
+    }
+
+     .alert {
+        animation: fadeOut 10s forwards;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
         }
-
-.alert {
-    animation: fadeOut 10s forwards;
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
+        100% {
+            opacity: 0;
+            display: none;
+        }
     }
-    100% {
-        opacity: 30;
-        display: none;
+    .sectionkepernyo {
+        margin-left : 50px;
+        margin-right: 50px;
     }
-}
 
 
 

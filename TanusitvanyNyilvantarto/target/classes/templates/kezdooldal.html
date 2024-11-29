@@ -78,10 +78,10 @@
 </nav>
 
 <section class="home">
-    <div class="container">
-        <h1>Tanúsítvány nyilvántartó rendszer</h1>
-        <div id="content-section"></div>
+    <div class="sectionkepernyo">
+        <h1>Tanúsítvány Nyilvántartó Rendszer</h1>
     </div>
+
 </section>
 
 <!-- Bootstrap JS -->
@@ -114,19 +114,6 @@
         // Ide jönne a kijelentkezés valódi megvalósítása (pl. URL átirányítás).
     }
 
-    function loadContent(url) {
-        const contentSection = document.getElementById('content-section');
-        fetch(url)
-            .then(response => {
-                if (!response.ok) throw new Error('Hiba történt a tartalom betöltése során.');
-                return response.text();
-            })
-            .then(html => contentSection.innerHTML = html)
-            .catch(error => {
-                console.error('Hiba:', error);
-                contentSection.innerHTML = '<p>Nem sikerült betölteni a tartalmat.</p>';
-            });
-    }
 </script>
 
 </body>

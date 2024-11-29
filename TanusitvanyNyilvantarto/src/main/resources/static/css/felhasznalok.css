@@ -1,10 +1,10 @@
 /* felhasznalok.css */
 
-     .mezok {
+     #kontener {
          display: none;
      }
 
-     .mezok .form-control {
+     #kontener .form-control {
          display: inline-block;
          width: auto;
          margin-right: 10px;
@@ -36,6 +36,10 @@
             opacity: 0;
             display: none;
         }
+    }
+    .sectionkepernyo {
+        margin-left : 50px;
+        margin-right: 50px;
     }
 
 

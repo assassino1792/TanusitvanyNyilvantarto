@@ -1,31 +1,25 @@
+
 document.addEventListener('DOMContentLoaded', () => {
-    const contentSection = document.getElementById('content-section');
+    const bt_hozzaadvagyelrejt = document.getElementById('bt_hozzaadvagyelrejt');
+    const kontener = document.getElementById('kontener');
 
-    function attachEventHandlers() {
-        const bt_hozzaadvagyelrejt = document.getElementById('bt_hozzaadvagyelrejt');
-        const mezok = document.querySelector('.mezok');
-
-        if (bt_hozzaadvagyelrejt && mezok) {
-            // Alapértelmezett állapotban rejtsük el
-            mezok.style.display = 'none';
-
-            // Esemény hozzáadása a gombra
-            bt_hozzaadvagyelrejt.addEventListener('click', () => {
-                if (mezok.style.display === 'none' || mezok.style.display === '') {
-                    mezok.style.display = 'block';
-                } else {
-                    mezok.style.display = 'none';
-                }
-            });
-        }
-    }
-      // Az alert üzenetek eltüntetése 2 másodperc után
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                const alerts = document.querySelectorAll(".alert");
-                alerts.forEach(alert => alert.style.display = 'none');
-            }, 5000); // 2 másodperc múlva eltűnik
+    if (bt_hozzaadvagyelrejt && kontener) {
+        // Gombra kattintva jelenjen meg vagy tűnjön el a konténer
+        bt_hozzaadvagyelrejt.addEventListener('click', () => {
+            if (kontener.style.display === 'none' || kontener.style.display === '') {
+                kontener.style.display = 'block';
+            } else {
+                kontener.style.display = 'none';
+            }
         });
+    }
+
+    // Automatikus eltüntetés alert üzenetekhez
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => alert.style.display = 'none');
+    }, 5000);
+});
 
     // Menüpont kattintásra töltsük be a "Felhasználók" tartalmat
     const felhasznalokMenu = document.querySelector('[data-menu="felhasznalok"]');
@@ -35,4 +29,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
