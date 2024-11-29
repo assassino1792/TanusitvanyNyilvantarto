@@ -19,10 +19,24 @@
          border: 1px solid #dee2e6;
      }
 
-        .table th,
-        .table td {
-            text-align: center;
+     .table th,
+     .table td {
+        text-align: center;
+    }
+
+     .alert {
+        animation: fadeOut 10s forwards;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
         }
+        100% {
+            opacity: 0;
+            display: none;
+        }
+    }
 
 
 

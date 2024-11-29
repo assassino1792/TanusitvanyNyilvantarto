@@ -9,7 +9,9 @@ Spring Data JPA repository interfész, amely az alapvető adatbázis-műveletek 
 előre definiált implementációját biztosítja. A Spring automatikusan létrehozza a háttérben,
 findAll(), save(), deleteById() vagy findById() metódusok implementációját.
  */
-@Repository
-public interface FelhasznalokRepository extends JpaRepository<Felhasznalok,Long> {
 
+@Repository
+public interface FelhasznalokRepository extends JpaRepository<Felhasznalok, Long> {
+    boolean existsByFelhasznaloNev(String felhasznaloNev);
+    boolean existsByEmail(String email);
 }

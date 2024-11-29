@@ -6,6 +6,7 @@ import hu.nye.tanusitvanynyilvantarto.service.FelhasznalokService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,13 +24,18 @@ public class FelhasznalokController {
     public String felhasznalok(Model model) {
         List<FelhasznalokModel> felhasznalok = felhasznalokService.findAllModels();
         model.addAttribute("felhasznalok", felhasznalok);
-        return "felhasznalok :: felhasznalokcontent";
+        return "felhasznalok";
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute FelhasznalokModel felhasznalo) {
-        felhasznalokService.hozzaad(felhasznalo);
-        return "redirect:/kezdooldal";
+    public String hozzaad(FelhasznalokModel model, RedirectAttributes redirectAttributes) {
+        try {
+            felhasznalokService.hozzaad(model);
+            redirectAttributes.addFlashAttribute("successMessage", "Felhasználó sikeresen hozzáadva!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/felhasznalok";
     }
 
     @PostMapping("/edit")
@@ -44,7 +50,7 @@ public class FelhasznalokController {
     @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         felhasznalokService.deleteById(id);
-        return "redirect:/kezdooldal";
+        return "redirect:/felhasznalok";
     }
 
 }

@@ -24,7 +24,21 @@
             text-align: center;
         }
 
-     
+.alert {
+    animation: fadeOut 10s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 30;
+        display: none;
+    }
+}
+
+
 
 
 

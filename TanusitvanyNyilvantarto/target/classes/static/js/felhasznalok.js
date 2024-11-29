@@ -19,25 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-
-    function loadContent(url) {
-        fetch(url)
-            .then(response => {
-                if (!response.ok) throw new Error('Hiba történt a tartalom betöltése során.');
-                return response.text();
-            })
-            .then(html => {
-                // Tartalom betöltése
-                contentSection.innerHTML = html;
-
-                // Új eseménykezelők hozzáadása a betöltött tartalomhoz
-                attachEventHandlers();
-            })
-            .catch(error => {
-                console.error('Hiba:', error);
-                contentSection.innerHTML = '<p>Nem sikerült betölteni a tartalmat.</p>';
-            });
-    }
+      // Az alert üzenetek eltüntetése 2 másodperc után
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                const alerts = document.querySelectorAll(".alert");
+                alerts.forEach(alert => alert.style.display = 'none');
+            }, 5000); // 2 másodperc múlva eltűnik
+        });
 
     // Menüpont kattintásra töltsük be a "Felhasználók" tartalmat
     const felhasznalokMenu = document.querySelector('[data-menu="felhasznalok"]');
@@ -47,9 +35,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Az oldal betöltésekor eseménykezelők regisztrálása
-    attachEventHandlers();
-
-    // Globális elérhetőség (ha máshol is szükséges)
-    window.loadContent = loadContent;
 });

@@ -27,13 +27,24 @@ public class FelhasznalokService {
                 .map(this::convertToModel)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
     }
-
+/*
     public void hozzaad(FelhasznalokModel model) {
         felhasznalokRepository.save(convertToEntity(model));
     }
     public List<Felhasznalok> getAllFelhasznalok() {
         return felhasznalokRepository.findAll();
     }
+*/
+    public void hozzaad(FelhasznalokModel model) {
+        if (felhasznalokRepository.existsByFelhasznaloNev(model.getFelhasznalonev())) {
+            throw new RuntimeException("A megadott felhasználónév már létezik!");
+        }
+        if (felhasznalokRepository.existsByEmail(model.getEmail())) {
+            throw new RuntimeException("A megadott email cím már létezik!");
+        }
+        felhasznalokRepository.save(convertToEntity(model));
+    }
+
 
     public void deleteById(Long id) {
         if (!felhasznalokRepository.existsById(id)) {
@@ -51,6 +62,8 @@ public class FelhasznalokService {
 
         felhasznalokRepository.save(existingUser);
     }
+
+
 
     //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {
