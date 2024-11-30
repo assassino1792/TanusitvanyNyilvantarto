@@ -89,6 +89,10 @@
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <span th:text="${successMessage}"></span>
         </div>
+        <div th:if="${successEditMessage}" class="alert alert-success" role="alert">
+            <span th:text="${successEditMessage}"></span>
+        </div>
+
 
         <button class="btn btn-dark mt-3 mb-2" id="bt_hozzaadvagyelrejt"><i class='bx bxs-user-plus'></i>
             Felhasználó hozzáadása</button>
@@ -131,13 +135,11 @@
                                 <i class='bx bxs-key'></i>
                             </button>
                         </div>
-
                         <div class="d-inline-block">
-                            <form>
-                                <button type="button" class="btn btn-warning btn-sm" title="Szerkesztés">
+                                <button class="btn btn-warning btn-sm openModal" data-bs-toggle="modal" data-bs-target="#editModal"
+                                        th:data-id="${felhasznalo.id}" title="Szerkesztés">
                                     <i class='bx bx-edit-alt'></i>
                                 </button>
-                            </form>
                         </div>
                         <!-- Törlés -->
                         <div class="d-inline-block">
@@ -155,7 +157,7 @@
     </div>
 
 
-    <!-- Modális -->
+    <!-- Jelszó Modal -->
     <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -163,11 +165,38 @@
                     <h5 class="modal-title" id="passwordModalLabel">Jelszó módosítása</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <!-- Form -->
                 <form id="passwordForm" method="post">
                     <div class="modal-body">
                         <label for="newPassword" class="form-label">Új jelszó:</label>
                         <input type="password" id="newPassword" name="jelszo" class="form-control" placeholder="Új jelszó" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Szerkesztés Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Felhasználó szerkesztése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm" method="post">
+                    <div class="modal-body">
+                        <label for="newUsername" class="form-label">Felhasználónév:</label>
+                        <input id="newUsername" name="felhasznalonev" class="form-control" placeholder="Felhasználónév" required>
+                        <label for="newLastname" class="form-label">Vezetéknév:</label>
+                        <input id="newLastname" name="vezeteknev" class="form-control" placeholder="Vezeteknév" required>
+                        <label for="newFirstname" class="form-label">Keresztnév:</label>
+                        <input id="newFirstname" name="keresztnev" class="form-control" placeholder="Keresztnév" required>
+                        <label for="newEmail" class="form-label">Email:</label>
+                        <input id="newEmail" name="email" class="form-control" placeholder="Email" required>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Mentés</button>
@@ -194,23 +223,52 @@
     }
 </script>
 <script>
-
     document.addEventListener("DOMContentLoaded", function () {
      const openModalButtons = document.querySelectorAll(".openModal");
      const formElement = document.getElementById("passwordForm");
 
-     // Modal megnyitása és action beállítása
+
      openModalButtons.forEach(button => {
          button.addEventListener("click", function () {
              const userId = button.getAttribute("data-id");
-             formElement.action = `/felhasznalok/updatepw/${userId}`; // Dinamikus action
+             formElement.action = `/felhasznalok/updatepw/${userId}`;
          });
      });
  });
-
-
-
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+     const openEditModalButtons = document.querySelectorAll(".openModal");
+     const form2Element = document.getElementById("editForm");
+
+
+     openEditModalButtons.forEach(button => {
+         button.addEventListener("click", function () {
+             const userId = button.getAttribute("data-id");
+             form2Element.action = `/felhasznalok/edit/${userId}`;
+            fetch(`/felhasznalok/${userId}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById("newUsername").value = data.felhasznalonev;
+        document.getElementById("newLastname").value = data.vezeteknev;
+        document.getElementById("newFirstname").value = data.keresztnev;
+        document.getElementById("newEmail").value = data.email;
+    })
+    .catch(error => {
+        console.error("Error fetching user data:", error);
+        alert("Nem sikerült betölteni a felhasználó adatait!");
+            });
+
+
+         });
+     });
+ });
+</script>
 </body>
 </html>

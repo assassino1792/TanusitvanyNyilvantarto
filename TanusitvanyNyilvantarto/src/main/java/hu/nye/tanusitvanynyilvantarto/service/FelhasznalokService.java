@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,14 +32,7 @@ public class FelhasznalokService {
                 .map(this::convertToModel)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
     }
-/*
-    public void hozzaad(FelhasznalokModel model) {
-        felhasznalokRepository.save(convertToEntity(model));
-    }
-    public List<Felhasznalok> getAllFelhasznalok() {
-        return felhasznalokRepository.findAll();
-    }
-*/
+
     public void hozzaad(FelhasznalokModel model) {
         if (felhasznalokRepository.existsByFelhasznaloNev(model.getFelhasznalonev())) {
             throw new RuntimeException("A megadott felhasználónév már létezik!");
@@ -48,7 +42,6 @@ public class FelhasznalokService {
         }
         felhasznalokRepository.save(convertToEntity(model));
     }
-
 
     public void deleteById(Long id) {
         if (!felhasznalokRepository.existsById(id)) {
@@ -60,19 +53,24 @@ public class FelhasznalokService {
         Felhasznalok existingUser = felhasznalokRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
 
+        Optional<Felhasznalok> userWithSameUsername = felhasznalokRepository.findByFelhasznaloNev(updatedModel.getFelhasznalonev());
+        if (userWithSameUsername.isPresent() && !userWithSameUsername.get().getId().equals(id)) {
+            throw new RuntimeException("A felhasználónév már létezik: " + updatedModel.getFelhasznalonev());
+        }
         existingUser.setFelhasznaloNev(updatedModel.getFelhasznalonev());
         existingUser.setVezetekNev(updatedModel.getVezeteknev());
         existingUser.setKeresztNev(updatedModel.getKeresztnev());
+        existingUser.setEmail(updatedModel.getEmail());
 
         felhasznalokRepository.save(existingUser);
     }
+
     public void updateJelszo(Long id, String ujJelszo) {
         Felhasznalok existingUser = felhasznalokRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
         existingUser.setJelszo(ujJelszo);
         felhasznalokRepository.save(existingUser);
     }
-
 
     //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {

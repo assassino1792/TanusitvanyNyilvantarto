@@ -3,6 +3,7 @@ package hu.nye.tanusitvanynyilvantarto.controller;
 import hu.nye.tanusitvanynyilvantarto.entity.Felhasznalok;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.service.FelhasznalokService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,26 @@ public class FelhasznalokController {
         return "redirect:/felhasznalok";
     }
 
-    @PostMapping("/edit")
+    @GetMapping("/{id}")
     @ResponseBody
-    public String updateUserAjax(@RequestBody FelhasznalokModel felhasznalo) {
-        felhasznalokService.update(felhasznalo.getId(), felhasznalo);
-        return "Sikeres mentés";
+    public ResponseEntity<FelhasznalokModel> getUserById(@PathVariable("id") Long id) {
+        FelhasznalokModel user = felhasznalokService.findById(id);
+        return ResponseEntity.ok(user);
     }
+
+
+
+    @PostMapping("/edit/{id}")
+    public String updateUser(@PathVariable("id") Long id, @ModelAttribute FelhasznalokModel felhasznalo, RedirectAttributes redirectAttributes) {
+        try {
+            felhasznalokService.update(id, felhasznalo);
+            redirectAttributes.addFlashAttribute("successEditMessage", "A felhasználói adatok módosultak.");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/felhasznalok";
+    }
+
 
     @PostMapping("/updatepw/{id}")
     public String updatePassword(@PathVariable("id") Long id, @RequestParam("jelszo") String jelszo, RedirectAttributes redirectAttributes) {
@@ -55,7 +70,6 @@ public class FelhasznalokController {
         }
         return "redirect:/felhasznalok";
     }
-
 
     @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
