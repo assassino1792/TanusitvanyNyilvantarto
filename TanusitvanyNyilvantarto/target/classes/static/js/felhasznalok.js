@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5000);
 });
 
+
     // Menüpont kattintásra töltsük be a "Felhasználók" tartalmat
     const felhasznalokMenu = document.querySelector('[data-menu="felhasznalok"]');
     if (felhasznalokMenu) {
@@ -46,3 +47,5 @@ function loadContent(url) {
             console.error(error);
         });
 }
+
+

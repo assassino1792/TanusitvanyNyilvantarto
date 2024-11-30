@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5000);
 });
 
+
     // Menüpont kattintásra töltsük be a "Felhasználók" tartalmat
     const felhasznalokMenu = document.querySelector('[data-menu="felhasznalok"]');
     if (felhasznalokMenu) {
@@ -47,50 +48,4 @@ function loadContent(url) {
         });
 }
 
-//Jelszó modal
-document.addEventListener("DOMContentLoaded", function () {
-     const openModalButtons = document.querySelectorAll(".openModal");
-     const formElement = document.getElementById("passwordForm");
 
-
-     openModalButtons.forEach(button => {
-         button.addEventListener("click", function () {
-             const userId = button.getAttribute("data-id");
-             formElement.action = `/felhasznalok/updatepw/${userId}`;
-         });
-     });
- });
-</script>
-
-//szerkesztés modal
-    document.addEventListener("DOMContentLoaded", function () {
-     const openEditModalButtons = document.querySelectorAll(".openModal");
-     const form2Element = document.getElementById("editForm");
-
-
-     openEditModalButtons.forEach(button => {
-         button.addEventListener("click", function () {
-             const userId = button.getAttribute("data-id");
-             form2Element.action = `/felhasznalok/edit/${userId}`;
-            fetch(`/felhasznalok/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("newUsername").value = data.felhasznalonev;
-                document.getElementById("newLastname").value = data.vezeteknev;
-                document.getElementById("newFirstname").value = data.keresztnev;
-                document.getElementById("newEmail").value = data.email;
-            })
-            .catch(error => {
-                console.error("Error fetching user data:", error);
-                alert("Nem sikerült betölteni a felhasználó adatait!");
-            });
-
-
-         });
-     });
- });

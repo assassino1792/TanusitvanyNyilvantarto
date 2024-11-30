@@ -39,14 +39,13 @@ public class FelhasznalokController {
         return "redirect:/felhasznalok";
     }
 
+
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<FelhasznalokModel> getUserById(@PathVariable("id") Long id) {
         FelhasznalokModel user = felhasznalokService.findById(id);
         return ResponseEntity.ok(user);
     }
-
-
 
     @PostMapping("/edit/{id}")
     public String updateUser(@PathVariable("id") Long id, @ModelAttribute FelhasznalokModel felhasznalo, RedirectAttributes redirectAttributes) {
@@ -58,7 +57,6 @@ public class FelhasznalokController {
         }
         return "redirect:/felhasznalok";
     }
-
 
     @PostMapping("/updatepw/{id}")
     public String updatePassword(@PathVariable("id") Long id, @RequestParam("jelszo") String jelszo, RedirectAttributes redirectAttributes) {
@@ -72,8 +70,13 @@ public class FelhasznalokController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        felhasznalokService.deleteById(id);
+    public String deleteUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            felhasznalokService.deleteById(id);
+            redirectAttributes.addFlashAttribute("successDeletedMessage", "A felhasználó sikeresen eltávolítva.");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
         return "redirect:/felhasznalok";
     }
 

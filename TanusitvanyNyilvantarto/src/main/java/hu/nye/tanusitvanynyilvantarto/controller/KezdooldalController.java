@@ -17,9 +17,14 @@ public class KezdooldalController {
     public KezdooldalController(FelhasznalokService felhasznalokService) {
         this.felhasznalokService = felhasznalokService;
     }
-    @GetMapping("/kezdooldal")
+    @GetMapping("/")
     public String kezdooldal(Model model) {
-        model.addAttribute("content", "kezdooldal :: content");
-        return "kezdooldal";
+        model.addAttribute("content", "kezdolap :: content");
+        return "kezdolap";
+    }
+    @GetMapping("/kezdolap")
+    public String kezdolap(Model model) {
+        model.addAttribute("content", "kezdolap :: content");
+        return "kezdolap";
     }
 }

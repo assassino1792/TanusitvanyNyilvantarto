@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 public class BejelentkezesController {
-    @GetMapping("/")
+    @GetMapping("/bejelentkezes")
     public String bejelentkezesFormMegnyitasa (Model model) {
         model.addAttribute("bejelentkezesFormMegnyitasa", new Felhasznalok());
         return "bejelentkezes";
