@@ -6,9 +6,12 @@ import hu.nye.tanusitvanynyilvantarto.service.FelhasznalokService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -29,16 +32,22 @@ public class FelhasznalokController {
     }
 
     @PostMapping("/add")
-    public String hozzaad(FelhasznalokModel model, RedirectAttributes redirectAttributes) {
+    public String hozzaad(@Valid @ModelAttribute("felhasznalo") FelhasznalokModel model,
+                          BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            uiModel.addAttribute("felhasznalo", model);
+            uiModel.addAttribute("errorMessage", "Hibás adatok! Ellenőrizd az űrlap mezőit.");
+            return "felhasznalok";
+        }
+
         try {
-            felhasznalokService.hozzaad(model);
+            felhasznalokService.hozzaad(model, bindingResult);
             redirectAttributes.addFlashAttribute("successMessage", "Felhasználó sikeresen hozzáadva!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/felhasznalok";
     }
-
 
     @GetMapping("/{id}")
     @ResponseBody

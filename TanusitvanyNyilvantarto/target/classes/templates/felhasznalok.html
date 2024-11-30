@@ -89,25 +89,6 @@
             <span th:text="${successDeletedMessage}"></span>
         </div>
 
-
-        <!--     <button class="btn btn-dark mt-3 mb-2" id="bt_hozzaadvagyelrejt"><i class='bx bxs-user-plus'></i>
-               Felhasználó hozzáadása</button>
-
-      <div class="kontenerosztaly" id="kontener" style="display: none;">
-               <form action="/felhasznalok/add" method="post">
-                   <div class="mezok mb-4">
-                       <input type="text" name="felhasznalonev" class="form-control" placeholder="Felhasználónév" required>
-                       <input type="text" name="vezeteknev" class="form-control" placeholder="Vezetéknév" required>
-                       <input type="text" name="keresztnev" class="form-control" placeholder="Keresztnév" required>
-                       <input type="email" name="email" class="form-control" placeholder="Email" required>
-                       <input type="password" name="jelszo" class="form-control" placeholder="Jelszó" required>
-                       <button type="submit" class="btn btn-success" title="Mentés">
-                           <i class='bx bx-save'></i>
-                       </button>
-                   </div>
-               </form>
-           </div>
-   -->
         <div class="AddNewUserContainer">
             <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal" title="Felhasználó hozzáadása">
                 <i class='bx bxs-user-plus'></i> Felhasználó hozzáadása
@@ -145,7 +126,7 @@
                                     <i class='bx bx-edit-alt'></i>
                                 </button>
                         </div>
-                        <!-- Törlés -->
+                        <!-- Törlés
                         <div class="d-inline-block">
                             <form th:action="@{/felhasznalok/delete/{id}(id=${felhasznalo.id})}" method="post"
                                   onsubmit="return confirm('Biztosan törölni szeretnéd ezt a felhasználót?');">
@@ -154,6 +135,16 @@
                                 </button>
                             </form>
                         </div>
+                    -->
+
+                        <div class="d-inline-block">
+                            <button type="button" class="btn btn-danger btn-sm deleteButton" th:data-id="${felhasznalo.id}" title="Törlés">
+                                <i class='bx bx-trash icon'></i>
+                            </button>
+
+                        </div>
+
+
                     </td>
                 </tr>
             </tbody>
@@ -241,6 +232,28 @@
         </div>
     </div>
 
+    <!-- Törlés Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Felhasználó törlése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Biztosan törölni szeretnéd ezt a felhasználót?</p>
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="post">
+                        <button type="submit" class="btn btn-danger">Törlés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </section>
 
 <!-- Bootstrap JS -->
@@ -298,6 +311,22 @@
          });
      });
  });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".deleteButton");
+    const deleteForm = document.getElementById("deleteForm");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const userId = button.getAttribute("data-id");
+            deleteForm.action = `/felhasznalok/delete/${userId}`;
+            const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+            deleteModal.show();
+        });
+    });
+});
+
 </script>
 </body>
 </html>

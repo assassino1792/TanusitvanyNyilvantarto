@@ -4,10 +4,14 @@ import hu.nye.tanusitvanynyilvantarto.entity.Felhasznalok;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.repository.FelhasznalokRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +37,10 @@ public class FelhasznalokService {
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
     }
 
-    public void hozzaad(FelhasznalokModel model) {
+    public void hozzaad(@Valid @Validated @ModelAttribute("felhasznalo") FelhasznalokModel model, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new IllegalArgumentException("Validációs hiba! " + bindingResult.getAllErrors());
+        }
         if (felhasznalokRepository.existsByFelhasznaloNev(model.getFelhasznalonev())) {
             throw new RuntimeException("A megadott felhasználónév már létezik!");
         }
