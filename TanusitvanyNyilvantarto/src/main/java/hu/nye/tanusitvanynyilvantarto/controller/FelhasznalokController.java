@@ -76,7 +76,8 @@ public class FelhasznalokController {
             felhasznalokService.updateJelszo(id, jelszo);
             redirectAttributes.addFlashAttribute("successMessage", "A jelszó sikeresen frissítve.");
         } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "A jelszónak tartalmaznia kell " +
+                    "kis-és nagybetűt, számot, valamint különleges karaktert!");
         }
         return "redirect:/felhasznalok";
     }
