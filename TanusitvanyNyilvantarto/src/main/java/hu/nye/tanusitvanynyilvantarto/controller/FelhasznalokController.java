@@ -10,8 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -28,6 +28,10 @@ public class FelhasznalokController {
     public String felhasznalok(Model model) {
         List<FelhasznalokModel> felhasznalok = felhasznalokService.findAllModels();
         model.addAttribute("felhasznalok", felhasznalok);
+        // Ha a felhasznalo modell nincs inicializálva, inicializáljuk
+        if (!model.containsAttribute("felhasznalo")) {
+            model.addAttribute("felhasznalo", new FelhasznalokModel());
+        }
         return "felhasznalok";
     }
 
@@ -36,12 +40,11 @@ public class FelhasznalokController {
                           BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("felhasznalo", model);
-            uiModel.addAttribute("errorMessage", "Hibás adatok! Ellenőrizd az űrlap mezőit.");
+            uiModel.addAttribute("errorMessage", "Hibás felhasználónév, email cím vagy jelszó.");
             return "felhasznalok";
         }
-
         try {
-            felhasznalokService.hozzaad(model, bindingResult);
+            felhasznalokService.hozzaad(model);
             redirectAttributes.addFlashAttribute("successMessage", "Felhasználó sikeresen hozzáadva!");
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
