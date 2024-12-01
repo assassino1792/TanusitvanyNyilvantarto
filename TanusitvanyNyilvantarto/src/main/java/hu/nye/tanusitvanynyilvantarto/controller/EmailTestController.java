@@ -11,6 +11,8 @@ public class EmailTestController {
     @Autowired
     private EmailService emailService;
 
+    // http://localhost/send-test-email?to=test@example.com
+
     @GetMapping("/send-test-email")
     public String sendTestEmail(@RequestParam String to) {
         try {

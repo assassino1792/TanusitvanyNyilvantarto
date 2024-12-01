@@ -10,8 +10,8 @@ function deleteCall() {
         button.addEventListener("click", function () {
             const id = button.getAttribute("data-id");
             deleteForm.action = `/tanusitvanyok/delete/${id}`;
-            const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
-            deleteModal.show();
         });
     });
 }
+
+
