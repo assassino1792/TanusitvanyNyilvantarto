@@ -32,6 +32,7 @@ public class TanusitvanyModel {
     private String statusz;
     @NotNull
     private String kiallitoNeve;
+    private String reszletek;
     private LocalDateTime letrehozva;
     private LocalDateTime modositva;
     }

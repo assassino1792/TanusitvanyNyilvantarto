@@ -7,10 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
-//Webes vezérlés beállítása
 @Controller
-
-
 public class BejelentkezesController {
     @GetMapping("/bejelentkezes")
     public String bejelentkezesFormMegnyitasa (Model model) {

@@ -1,7 +1,6 @@
 package hu.nye.tanusitvanynyilvantarto.service;
 
 import hu.nye.tanusitvanynyilvantarto.entity.Tanusitvanyok;
-import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.model.TanusitvanyModel;
 import hu.nye.tanusitvanynyilvantarto.repository.TanusitvanyokRepository;
 import org.springframework.stereotype.Service;
@@ -26,16 +25,19 @@ public class TanusitvanyokService {
     public TanusitvanyModel findById(Long id) {
         return tanusitvanyokRepository.findById(id)
                 .map(this::convertToModel)
-                .orElseThrow(() -> new RuntimeException("Tanúsítvány nem található:" + id));
+                .orElseThrow(() -> new RuntimeException("Tanúsítvány nem található!"));
     }
 
     public void save(TanusitvanyModel model) {
+        if (model.getKezdetiIdo().isAfter(model.getLejaratiIdo())) {
+            throw new IllegalArgumentException("A tanúsítvány lejárati ideje nem lehet kisebb, mint tanúsítvány kezdeti ideje!");
+        }
         tanusitvanyokRepository.save(convertToEntity(model));
     }
 
     public void delete(Long id){
         if(!tanusitvanyokRepository.existsById(id)) {
-            throw new RuntimeException("Tanúsítvány nem található:" +id);
+            throw new RuntimeException("Tanúsítvány nem található!");
         }
         tanusitvanyokRepository.deleteById(id);
     }
@@ -49,6 +51,7 @@ public class TanusitvanyokService {
                 entity.getLejaratiIdo(),
                 entity.getStatusz(),
                 entity.getKiallitoNeve(),
+                entity.getReszletek(),
                 entity.getLetrehozva(),
                 entity.getModositva()
         );
@@ -63,6 +66,7 @@ public class TanusitvanyokService {
                 model.getLejaratiIdo(),
                 model.getStatusz(),
                 model.getKiallitoNeve(),
+                model.getReszletek(),
                 model.getLetrehozva(),
                 model.getModositva()
         );

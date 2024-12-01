@@ -45,6 +45,9 @@ public class Tanusitvanyok {
     @Column (name = "kiallito_neve")
     private String kiallitoNeve;
 
+    @Column (name = "reszletek")
+    private String reszletek;
+
     @Column (name = "letrehozva", updatable = false)
     private LocalDateTime letrehozva;
 
@@ -52,7 +55,7 @@ public class Tanusitvanyok {
     private LocalDateTime modositva;
 
     public Tanusitvanyok(Long id, String szerverNev, String tanusitvanyTipus, LocalDate kezdetiIdo, LocalDate lejaratiIdo,
-                         String statusz, String kiallitoNeve, LocalDateTime letrehozva, LocalDateTime modositva) {
+                         String statusz, String kiallitoNeve, String reszletek, LocalDateTime letrehozva, LocalDateTime modositva) {
         this.id = id;
         this.szerverNev = szerverNev;
         this.tanusitvanyTipus = tanusitvanyTipus;
@@ -60,6 +63,7 @@ public class Tanusitvanyok {
         this.lejaratiIdo = lejaratiIdo;
         this.statusz = statusz;
         this.kiallitoNeve = kiallitoNeve;
+        this.reszletek = reszletek;
         this.letrehozva = letrehozva;
         this.modositva = modositva;
     }
