@@ -1,0 +1,40 @@
+    .table {
+         border-radius: 10px;
+         overflow: hidden;
+     }
+
+     .table-bordered {
+         border: 1px solid #dee2e6;
+     }
+
+     .table th,
+     .table td {
+        text-align: center;
+    }
+
+     .alert {
+        animation: fadeOut 10s forwards;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            display: none;
+        }
+    }
+    .sectionkepernyo {
+        margin-left : 50px;
+        margin-right: 50px;
+    }
+    .modal-header {
+        background-color: black;
+        color: white;
+        border-bottom: 1px solid #444;
+     }
+
+     .modal-header .btn-close {
+        filter: invert(1);
+     }
