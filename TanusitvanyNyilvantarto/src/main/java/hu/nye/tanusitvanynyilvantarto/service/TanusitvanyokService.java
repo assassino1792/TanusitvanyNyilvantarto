@@ -33,7 +33,7 @@ public class TanusitvanyokService {
         tanusitvanyokRepository.save(convertToEntity(model));
     }
 
-    public void deleteByIdTanusitvany(Long id){
+    public void delete(Long id){
         if(!tanusitvanyokRepository.existsById(id)) {
             throw new RuntimeException("Tanúsítvány nem található:" +id);
         }

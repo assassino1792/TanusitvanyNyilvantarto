@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -41,8 +38,20 @@ public class TanusitvanyController {
     public String save(@Valid @ModelAttribute("tanusitvany") TanusitvanyModel model, RedirectAttributes redirectAttributes){
         try {
             tanusitvanyokService.save(model);
+            redirectAttributes.addFlashAttribute("successMessage","Az új bejegyzés rögzítésre került.");
         } catch (RuntimeException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/tanusitvanyok";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){
+        try {
+            tanusitvanyokService.delete(id);
+            redirectAttributes.addFlashAttribute("successDeletedMessage",  "A tanúsítvány törlésre került" );
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorDeletedMessage", e.getMessage());
         }
         return "redirect:/tanusitvanyok";
     }
