@@ -17,7 +17,7 @@ public class FelhasznalokService {
         this.felhasznalokRepository = felhasznalokRepository;
     }
 
-    public List<FelhasznalokModel> findAllModels() {
+    public List<FelhasznalokModel> findAll() {
         return felhasznalokRepository.findAll().stream()
                 .map(this::convertToModel)
                 .collect(Collectors.toList());
@@ -26,7 +26,7 @@ public class FelhasznalokService {
     public FelhasznalokModel findById(Long id) {
         return felhasznalokRepository.findById(id)
                 .map(this::convertToModel)
-                .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
+                .orElseThrow(() -> new RuntimeException("Felhasználó nem található: " + id));
     }
 
     public void hozzaad(FelhasznalokModel model) {
@@ -41,13 +41,13 @@ public class FelhasznalokService {
 
     public void deleteById(Long id) {
         if (!felhasznalokRepository.existsById(id)) {
-            throw new RuntimeException("Felhasználó nem található id: " + id);
+            throw new RuntimeException("Felhasználó nem található: " + id);
         }
         felhasznalokRepository.deleteById(id);
     }
     public void update(Long id, FelhasznalokModel updatedModel) {
         Felhasznalok existingUser = felhasznalokRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
+                .orElseThrow(() -> new RuntimeException("Felhasználó nem található: " + id));
 
         Optional<Felhasznalok> userWithSameUsername = felhasznalokRepository.findByFelhasznaloNev(updatedModel.getFelhasznalonev());
         if (userWithSameUsername.isPresent() && !userWithSameUsername.get().getId().equals(id)) {
@@ -63,7 +63,7 @@ public class FelhasznalokService {
 
     public void updateJelszo(Long id, String ujJelszo) {
         Felhasznalok existingUser = felhasznalokRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Felhasználó nem található id: " + id));
+                .orElseThrow(() -> new RuntimeException("Felhasználó nem található: " + id));
         existingUser.setJelszo(ujJelszo);
         felhasznalokRepository.save(existingUser);
     }

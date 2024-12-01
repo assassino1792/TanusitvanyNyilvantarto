@@ -26,7 +26,7 @@ public class FelhasznalokController {
 
     @GetMapping
     public String felhasznalok(Model model) {
-        List<FelhasznalokModel> felhasznalok = felhasznalokService.findAllModels();
+        List<FelhasznalokModel> felhasznalok = felhasznalokService.findAll();
         model.addAttribute("felhasznalok", felhasznalok);
         // Ha a felhasznalo modell nincs inicializálva, inicializáljuk
         if (!model.containsAttribute("felhasznalo")) {
@@ -41,7 +41,7 @@ public class FelhasznalokController {
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("felhasznalo", model);
             uiModel.addAttribute("errorMessage", "Hibás felhasználónév, email cím vagy jelszó.");
-            return "felhasznalok";
+            return "redirect:/felhasznalok";
         }
         try {
             felhasznalokService.hozzaad(model);

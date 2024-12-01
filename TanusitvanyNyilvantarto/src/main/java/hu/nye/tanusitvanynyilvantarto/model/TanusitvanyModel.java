@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class TanusitvanyModel {
 
 
-    private String id;
+    private Long id;
     @NotNull
     @Size(max = 30)
     private String szerverNev;
