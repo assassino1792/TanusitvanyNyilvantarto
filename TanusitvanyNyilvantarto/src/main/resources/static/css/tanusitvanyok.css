@@ -38,3 +38,7 @@
      .modal-header .btn-close {
         filter: invert(1);
      }
+      .custom-textarea {
+             text-align: left;
+             padding: 10px;
+         }

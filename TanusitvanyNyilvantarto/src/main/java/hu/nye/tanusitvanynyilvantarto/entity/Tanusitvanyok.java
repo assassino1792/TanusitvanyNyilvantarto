@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,14 +49,13 @@ public class Tanusitvanyok {
     @Column (name = "reszletek")
     private String reszletek;
 
-    @Column (name = "letrehozva", updatable = false)
+    @CreationTimestamp
+    @Column(name = "letrehozva", updatable = false)
     private LocalDateTime letrehozva;
 
-    @Column (name = "modositva")
-    private LocalDateTime modositva;
 
     public Tanusitvanyok(Long id, String szerverNev, String tanusitvanyTipus, LocalDate kezdetiIdo, LocalDate lejaratiIdo,
-                         String statusz, String kiallitoNeve, String reszletek, LocalDateTime letrehozva, LocalDateTime modositva) {
+                         String statusz, String kiallitoNeve, String reszletek, LocalDateTime letrehozva) {
         this.id = id;
         this.szerverNev = szerverNev;
         this.tanusitvanyTipus = tanusitvanyTipus;
@@ -65,6 +65,5 @@ public class Tanusitvanyok {
         this.kiallitoNeve = kiallitoNeve;
         this.reszletek = reszletek;
         this.letrehozva = letrehozva;
-        this.modositva = modositva;
     }
 }

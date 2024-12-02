@@ -34,5 +34,4 @@ public class TanusitvanyModel {
     private String kiallitoNeve;
     private String reszletek;
     private LocalDateTime letrehozva;
-    private LocalDateTime modositva;
-    }
+}

@@ -3,6 +3,7 @@ package hu.nye.tanusitvanynyilvantarto.service;
 import hu.nye.tanusitvanynyilvantarto.entity.Tanusitvanyok;
 import hu.nye.tanusitvanynyilvantarto.model.TanusitvanyModel;
 import hu.nye.tanusitvanynyilvantarto.repository.TanusitvanyokRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,12 +36,28 @@ public class TanusitvanyokService {
         tanusitvanyokRepository.save(convertToEntity(model));
     }
 
-    public void delete(Long id){
-        if(!tanusitvanyokRepository.existsById(id)) {
+    public void delete(Long id) {
+        if (!tanusitvanyokRepository.existsById(id)) {
             throw new RuntimeException("Tanúsítvány nem található!");
         }
         tanusitvanyokRepository.deleteById(id);
     }
+
+    public void update(Long id, TanusitvanyModel updateModel) {
+        Tanusitvanyok existingEntity = tanusitvanyokRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id + " id nem található!"));
+
+        existingEntity.setSzerverNev(updateModel.getSzerverNev());
+        existingEntity.setTanusitvanyTipus(updateModel.getTanusitvanyTipus());
+        existingEntity.setKezdetiIdo(updateModel.getKezdetiIdo());
+        existingEntity.setLejaratiIdo(updateModel.getLejaratiIdo());
+        existingEntity.setStatusz(updateModel.getStatusz());
+        existingEntity.setKiallitoNeve(updateModel.getKiallitoNeve());
+        existingEntity.setReszletek(updateModel.getReszletek());
+
+        tanusitvanyokRepository.save(existingEntity);
+    }
+
 
     private TanusitvanyModel convertToModel(Tanusitvanyok entity) {
         return new TanusitvanyModel(
@@ -52,8 +69,8 @@ public class TanusitvanyokService {
                 entity.getStatusz(),
                 entity.getKiallitoNeve(),
                 entity.getReszletek(),
-                entity.getLetrehozva(),
-                entity.getModositva()
+                entity.getLetrehozva()
+
         );
     }
 
@@ -67,8 +84,8 @@ public class TanusitvanyokService {
                 model.getStatusz(),
                 model.getKiallitoNeve(),
                 model.getReszletek(),
-                model.getLetrehozva(),
-                model.getModositva()
+                model.getLetrehozva()
+
         );
     }
 

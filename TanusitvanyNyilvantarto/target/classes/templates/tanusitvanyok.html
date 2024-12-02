@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/kezdolap.css">
     <link rel="stylesheet" href="/css/tanusitvanyok.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
 <nav class="sidebar closed" id="sidebar">
@@ -89,6 +90,12 @@
         <div th:if="${successDeletedMessage}" class="alert alert-success" role="alert">
             <span th:text="${successDeletedMessage}"></span>
         </div>
+        <div th:if="${errorEditMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${errorEditMessage}"></span>
+        </div>
+        <div th:if="${successEditMessage}" class="alert alert-success" role="alert">
+            <span th:text="${successEditMessage}"></span>
+        </div>
 
         <div class="AddNewTanusitvanyContainer">
             <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal" title="Tanúsítvány hozzáadása">
@@ -109,7 +116,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="tanusitvany : ${tanusitvanyok}">
+            <tr th:each="tanusitvany : ${tanusitvanyok}" class="table-row" th:data-id="${tanusitvany.id}">
                 <td th:text="${tanusitvany.szerverNev}"></td>
                 <td th:text="${tanusitvany.tanusitvanyTipus}"></td>
                 <td th:text="${#temporals.format(tanusitvany.kezdetiIdo, 'yyyy.MM.dd')}"></td>
@@ -174,6 +181,11 @@
                         </select>
                         <label for="newAddIssuerName" class="form-label">Kiállító neve:</label>
                         <input type="text" id="newAddIssuerName" name="kiallitoNeve" class="form-control" placeholder="" required>
+                        <label for="newAddDetails" class="form-label">Részletek megadása:</label>
+                        <textarea id="newAddDetails" name="reszletek" class="form-control custom-textarea" placeholder="Adja meg a részleteket" rows="4" required style="text-align: left; padding: 10px;">
+CN:
+DNS:
+                        </textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Mentés</button>
@@ -206,6 +218,84 @@
     </div>
  </div>
 
+
+    <!-- Szerkesztés Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="editModalLabel">Tanúsítvány szerkesztése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm" method="post">
+                    <div class="modal-body">
+                        <label for="EditHostname" class="form-label">Szerver neve:</label>
+                        <input id="EditHostname" name="szerverNev" class="form-control" placeholder="" required>
+                        <label for="EditTanusitvanyTipus" class="form-label">Válassz tanúsítvány típust!</label>
+                        <select id="EditTanusitvanyTipus" name="tanusitvanyTipus" class="form-control" required>
+                            <option value=""></option>
+                            <option value="Wildcard">Wildcard tanúsítványok</option>
+                            <option value="SAN/UCC">SAN/UCC tanúsítványok</option>
+                            <option value="SSL/TLS">SSL/TLS tanúsítványok</option>
+                            <option value="Client Authentication">Ügyfél-hitelesítési tanúsítványok</option>
+                            <option value="S/MIME">S/MIME (e-mail titkosítás/hitelesítés)</option>
+                            <option value="VPN">VPN tanúsítványok</option>
+                            <option value="Root CA">Root CA tanúsítvány</option>
+                            <option value="Intermediate CA">Intermediate CA tanúsítvány</option>
+                        </select>
+                        <label for="EditCAStartTime" class="form-label">Tanúsítvány kezdete:</label>
+                        <input type="date" id="EditCAStartTime" name="kezdetiIdo" class="form-control" placeholder="" required minlength="3" maxlength="30">
+                        <label for="EditCAExperationDate" class="form-label">Tanúsítvány lejárata:</label>
+                        <input type="date" id="EditCAExperationDate" name="lejaratiIdo" class="form-control" placeholder="" required >
+                        <label for="EditCAStatus" class="form-label">Tanúsítvány státusza:</label>
+                        <select id="EditCAStatus" name="statusz" class="form-control" required>
+                            <option value=""></option>
+                            <option value="Aktív">Aktív</option>
+                            <option value="Inaktív">Inaktív</option>
+                        </select>
+                        <label for="EditIssuerName" class="form-label">Kiállító neve:</label>
+                        <input type="text" id="EditIssuerName" name="kiallitoNeve" class="form-control" placeholder="" required>
+                        <label for="EditDetails" class="form-label">Részletek megadása:</label>
+                        <textarea id="EditDetails" name="reszletek" class="form-control custom-textarea" placeholder="Adja meg a részleteket" rows="4" required style="text-align: left; padding: 10px;">
+CN:
+DNS:
+                        </textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Mentés</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Részletek Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="detailsModalLabel">Tanúsítvány részletei</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Szerver neve:</strong> <span id="detailsSzerverNev"></span></p>
+                    <p><strong>Tanúsítvány típusa:</strong> <span id="detailsTanusitvanyTipus"></span></p>
+                    <p><strong>Tanúsítvány kezdete:</strong> <span id="detailsKezdetiIdo"></span></p>
+                    <p><strong>Tanúsítvány lejárata:</strong> <span id="detailsLejaratiIdo"></span></p>
+                    <p><strong>Tanúsítvány státusza:</strong> <span id="detailsStatusz"></span></p>
+                    <p><strong>Kiállító neve:</strong> <span id="detailsKiallitoNeve"></span></p>
+                    <p><strong>Részletek:</strong> <span id="detailsReszletek"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bezárás</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/tanusitvanyok.js"></script>
@@ -235,6 +325,93 @@
         alert("Sikeres kijelentkezés!");
         // Ide jönne a kijelentkezés valódi megvalósítása (pl. URL átirányítás).
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const openEditModalButtons = document.querySelectorAll(".openModal");
+    const form2Element = document.getElementById("editForm");
+
+    openEditModalButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            // Lekérjük az ID-t a data-id attribútumból
+            const tanusitvanyId = button.getAttribute("data-id");
+
+            // Ellenőrzés: kiírjuk konzolba az ID-t hibakereséshez
+            console.log("Tanúsítvány ID:", tanusitvanyId);
+
+            // Frissítjük a form action URL-jét
+            form2Element.action = `/tanusitvanyok/edit/${tanusitvanyId}`;
+
+            // Lekérjük az adatokat a backendről
+            fetch(`/tanusitvanyok/${tanusitvanyId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Kitöltjük a modal mezőit
+                    document.getElementById("EditHostname").value = data.szerverNev || '';
+                    document.getElementById("EditTanusitvanyTipus").value = data.tanusitvanyTipus || '';
+                    document.getElementById("EditCAStartTime").value = data.kezdetiIdo || '';
+                    document.getElementById("EditCAExperationDate").value = data.lejaratiIdo || '';
+                    document.getElementById("EditCAStatus").value = data.statusz || '';
+                    document.getElementById("EditIssuerName").value = data.kiallitoNeve || '';
+                    document.getElementById("EditDetails").value = data.reszletek || '';
+                })
+                .catch(error => {
+                    console.error("Error fetching tanúsítvány data:", error);
+                    alert("Nem sikerült betölteni a tanúsítvány adatait!");
+                });
+        });
+    });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const tableRows = document.querySelectorAll(".table-row");
+    const actionButtons = document.querySelectorAll(".openModal, .deleteButton"); // Műveletek oszlop gombjai
+
+    tableRows.forEach(row => {
+        row.addEventListener("click", function () {
+            const tanusitvanyId = row.getAttribute("data-id");
+
+            fetch(`/tanusitvanyok/${tanusitvanyId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("detailsSzerverNev").textContent = data.szerverNev || '';
+                    document.getElementById("detailsTanusitvanyTipus").textContent = data.tanusitvanyTipus || '';
+                    document.getElementById("detailsKezdetiIdo").textContent = data.kezdetiIdo || '';
+                    document.getElementById("detailsLejaratiIdo").textContent = data.lejaratiIdo || '';
+                    document.getElementById("detailsStatusz").textContent = data.statusz || '';
+                    document.getElementById("detailsKiallitoNeve").textContent = data.kiallitoNeve || '';
+                    document.getElementById("detailsReszletek").textContent = data.reszletek || '';
+
+                    // Modal ablak megnyitása
+                    const detailsModal = new bootstrap.Modal(document.getElementById("detailsModal"));
+                    detailsModal.show();
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    alert("Nem sikerült betölteni a tanúsítvány adatait!");
+                });
+        });
+    });
+
+    // Gombokra való kattintás kizárása
+    actionButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
+    });
+});
 </script>
 </body>
 </html>

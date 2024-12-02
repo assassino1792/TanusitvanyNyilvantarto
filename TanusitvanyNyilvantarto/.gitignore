@@ -1,0 +1,37 @@
+# Build mappák
+/target/
+out/
+build/
+
+# Naplófájlok
+*.log
+logs/
+
+# IDE fájlok
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Lokális konfigurációk
+*.env
+*.properties.local
+*.yml.local
+
+# Teszt lefedettség
+/coverage/
+*.lcov
+test-output/
+
+# OS-specifikus fájlok
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp és ideiglenes fájlok
+*.tmp
+*.bak
+*.pid
+*.swp

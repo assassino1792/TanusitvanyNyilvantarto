@@ -53,5 +53,23 @@ public class TanusitvanyController {
         return "redirect:/tanusitvanyok";
     }
 
+    @PostMapping("/edit/{id}")
+    public String update(@PathVariable("id") Long id, @ModelAttribute TanusitvanyModel tanusitvany, RedirectAttributes redirectAttributes) {
+        try {
+            tanusitvanyokService.update(id, tanusitvany);
+            redirectAttributes.addFlashAttribute("successEditMessage","Tanúsítvány adatok módosultak.");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorEditMessage", e.getMessage());
+        }
+        return "redirect:/tanusitvanyok";
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public TanusitvanyModel getById(@PathVariable("id") Long id) {
+        return tanusitvanyokService.findById(id);
+    }
+
+
 }
 
