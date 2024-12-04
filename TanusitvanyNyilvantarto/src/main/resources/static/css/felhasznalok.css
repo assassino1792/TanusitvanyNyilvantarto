@@ -11,6 +11,7 @@
      .table {
          border-radius: 10px;
          overflow: hidden;
+         box-shadow: 4px 4px;
      }
 
      .table-bordered {

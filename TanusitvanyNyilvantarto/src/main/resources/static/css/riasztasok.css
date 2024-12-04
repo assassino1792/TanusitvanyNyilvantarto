@@ -1,0 +1,14 @@
+ .table {
+         border-radius: 10px;
+         overflow: hidden;
+         box-shadow: 4px 4px;
+     }
+
+     .table-bordered {
+         border: 1px solid #dee2e6;
+     }
+
+     .table th,
+     .table td {
+        text-align: center;
+    }
