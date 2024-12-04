@@ -38,7 +38,7 @@ function loadContent(url) {
             return response.text();
         })
         .then(html => {
-            const contentContainer = document.querySelector('.home'); // Ide töltjük a tartalmat
+            const contentContainer = document.querySelector('.home');
             if (contentContainer) {
                 contentContainer.innerHTML = html;
             }

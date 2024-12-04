@@ -57,13 +57,12 @@
                 <span class="text">Kijelentkezés</span>
             </a>
         </li>
-        <li class="mode">
+        <li class="mode" onclick="toggleDarkMode()">
             <div class="sun-moon">
                 <i class='bx bx-moon icon moon'></i>
                 <i class='bx bx-sun icon sun'></i>
             </div>
             <span class="mode-text text">Sötét mód</span>
-
             <div class="toggle-switch">
                 <span class="switch"></span>
             </div>
@@ -113,35 +112,8 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/alapfunkciok.js"></script>
 <script src="/js/felhasznalok.js"></script>
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('closed');
-        sidebar.classList.toggle('open');
-    }
-
-    function toggleDarkMode() {
-        const body = document.body;
-        const switchElement = document.getElementById('darkModeSwitch');
-        body.classList.toggle('dark');
-        switchElement.classList.toggle('active');
-
-        if (body.classList.contains('dark')) {
-            body.style.backgroundColor = '#18191a';
-            body.style.color = '#ccc';
-        } else {
-            body.style.backgroundColor = '#E4E9F7';
-            body.style.color = '#707070';
-        }
-    }
-
-    function logout() {
-        alert("Sikeres kijelentkezés!");
-        // Ide jönne a kijelentkezés valódi megvalósítása (pl. URL átirányítás).
-    }
-
-</script>
 
 </body>
 </html>

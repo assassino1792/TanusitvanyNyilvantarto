@@ -1,11 +1,12 @@
 body {
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
-    background-color: rgba(245, 245, 245, 0.8);
+    background-color: #F0F0F0;
     position: relative;
     margin: 0;
     overflow: hidden;
     transition: background-color 0.3s ease;
+    color: #707070;
 }
 
 body::before {
@@ -22,6 +23,21 @@ body::before {
     opacity: 0.25;
     z-index: -1;
 }
+body.dark {
+    background-color: #18191a;
+    color: #ccc;
+}
+.icon.sun {
+    display: none;
+}
+
+body.dark .icon.moon {
+    display: none;
+}
+body.dark .icon.sun {
+    display: inline-block;
+}
+
 .header {
     display: flex;
     align-items: center;
@@ -104,15 +120,14 @@ body::before {
     font-size: 20px;
 }
 
-
 .sidebar.closed .menu-links li a i {
     display: inline-block;
     text-align: center;
 }
 
-
 .sidebar.closed .menu-links li a .text {
     opacity: 0;
+    pointer-events: none;
 }
 .sidebar.closed .menu-links li a:hover {
     background-color: black;
