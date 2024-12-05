@@ -52,22 +52,20 @@
                 <span class="text">SMTP beállítás</span>
             </a>
         </li>
-
-            <li>
-                <a href="#" onclick="logout()">
-                    <i class='bx bx-log-out'></i>
-                    <span class="text">Kijelentkezés</span>
-                </a>
-            </li>
-        <li class="mode" onclick="toggleDarkMode()">
-            <div class="sun-moon">
-                <i class='bx bx-moon icon moon'></i>
-                <i class='bx bx-sun icon sun'></i>
-            </div>
-            <span class="mode-text text">Sötét mód</span>
-            <div class="toggle-switch">
-                <span class="switch"></span>
-            </div>
+        <li class="menu-links dark-mode-toggle">
+            <a href="#" onclick="toggleDarkMode()" class="dark-mode-toggle">
+                <div class="sun-moon">
+                    <i class='bx bx-moon icon moon'></i>
+                    <i class='bx bx-sun icon sun'></i>
+                </div>
+                <span class="text mode-text">Sötét mód</span>
+            </a>
+        </li>
+        <li class="logout">
+            <a href="#" onclick="logout()">
+                <i class='bx bx-log-out'></i>
+                <span class="text">Kijelentkezés</span>
+            </a>
         </li>
     </ul>
 </nav>
@@ -95,7 +93,7 @@
 
                 <div class="AddNewUserContainer">
                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal" title="Felhasználó hozzáadása">
-                        <i class='bx bxs-user-plus'></i> Felhasználó hozzáadása
+                        <i class='bx bxs-user-plus'></i> Új felhasználó
                     </button>
                 </div>
         <!------------------------------------------ TÁBLÁZAT -------------------------------------------------------->
@@ -252,67 +250,6 @@
 <script src="/js/alapfunkciok.js"></script>
 <script src="/js/felhasznalok.js"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-     const openModalButtons = document.querySelectorAll(".openModal");
-     const formElement = document.getElementById("passwordForm");
 
-
-     openModalButtons.forEach(button => {
-         button.addEventListener("click", function () {
-             const userId = button.getAttribute("data-id");
-             formElement.action = `/felhasznalok/updatepw/${userId}`;
-         });
-     });
- });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-     const openEditModalButtons = document.querySelectorAll(".openModal");
-     const form2Element = document.getElementById("editForm");
-
-
-     openEditModalButtons.forEach(button => {
-         button.addEventListener("click", function () {
-             const userId = button.getAttribute("data-id");
-             form2Element.action = `/felhasznalok/edit/${userId}`;
-            fetch(`/felhasznalok/${userId}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        document.getElementById("newUsername").value = data.felhasznalonev;
-        document.getElementById("newLastname").value = data.vezeteknev;
-        document.getElementById("newFirstname").value = data.keresztnev;
-        document.getElementById("newEmail").value = data.email;
-    })
-    .catch(error => {
-        console.error("Error fetching user data:", error);
-        alert("Nem sikerült betölteni a felhasználó adatait!");
-            });
-         });
-     });
- });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const deleteButtons = document.querySelectorAll(".deleteButton");
-    const deleteForm = document.getElementById("deleteForm");
-
-    deleteButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            const userId = button.getAttribute("data-id");
-            deleteForm.action = `/felhasznalok/delete/${userId}`;
-            const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
-            deleteModal.show();
-        });
-    });
-});
-
-</script>
 </body>
 </html>

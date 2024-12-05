@@ -163,3 +163,39 @@ body.dark .icon.sun {
     margin : 5px;
 }
 
+.sidebar.closed .menu-links li .icon.sun {
+    display: none;
+}
+
+.sidebar.closed .menu-links li .icon.moon {
+    display: inline-block;
+}
+
+body.dark .sidebar.closed .menu-links li .icon.sun {
+    display: inline-block;
+}
+
+body.dark .sidebar.closed .menu-links li .icon.moon {
+    display: none;
+}
+
+
+.sidebar li.dark-mode-toggle,
+.sidebar li.logout {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+.sidebar li.dark-mode-toggle {
+    bottom: 60px;
+}
+
+.modal {
+color: black;}
+
+
+
+
+
+
