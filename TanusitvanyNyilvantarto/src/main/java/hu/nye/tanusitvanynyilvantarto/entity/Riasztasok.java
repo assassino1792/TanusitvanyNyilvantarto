@@ -5,39 +5,53 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "Riasztasok")
 public class Riasztasok {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "tanusitvany_id", nullable = false)
-    private Tanusitvanyok tanusitvany_id;
+    private Tanusitvanyok tanusitvany; // Név egyszerűsítése, `_id` redundáns
 
-    @Column (name = "riasztas_tipusa", nullable = false)
+    @Transient // Nem perzisztálódik, mindig dinamikusan számoljuk
     private String riasztasTipus;
 
-    @Column (name = "riasztas_ideje", nullable = false)
-    private LocalDate riasztasIdeje;
+    @Transient // Nem perzisztálódik, mindig dinamikusan számoljuk
+    private boolean riasztasAktiv;
 
+    /**
+     * Dinamikusan számolja ki a riasztás típusát a tanúsítvány lejárati ideje alapján.
+     */
+    public String getRiasztasTipus() {
+        if (tanusitvany == null || tanusitvany.getLejaratiIdo() == null) {
+            return "UNKNOWN";
+        }
+        long daysToExpiry = java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.now(), tanusitvany.getLejaratiIdo());
 
-    @Column (name = "riasztas_statusza", nullable = false)
-    private Boolean riasztasStatusz;
+        if (daysToExpiry < 0) {
+            return "EXPIRED";
+        } else if (daysToExpiry <= 3) {
+            return "CRITICAL";
+        } else if (daysToExpiry <= 14) {
+            return "WARNING";
+        }
+        return "OK";
+    }
 
-    public Riasztasok(Long id, Tanusitvanyok tanusitvany_id, String riasztasTipus, LocalDate riasztasIdeje,
-                      String riasztasWarningUzenet, String riasztasCriticalUzenet, String riasztasExpiredUzenet,
-                      Boolean riasztasStatusz) {
-        this.id = id;
-        this.tanusitvany_id = tanusitvany_id;
-        this.riasztasTipus = riasztasTipus;
-        this.riasztasIdeje = riasztasIdeje;
-              this.riasztasStatusz = riasztasStatusz;
+    /**
+     * Ellenőrzi, hogy a riasztás még aktív-e (azaz a tanúsítvány nem járt le).
+     */
+    public boolean isRiasztasAktiv() {
+        if (tanusitvany == null || tanusitvany.getLejaratiIdo() == null) {
+            return false;
+        }
+        return java.time.LocalDate.now().isBefore(tanusitvany.getLejaratiIdo());
     }
 }

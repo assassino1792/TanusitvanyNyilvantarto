@@ -6,7 +6,9 @@ import hu.nye.tanusitvanynyilvantarto.repository.TanusitvanyokRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +60,16 @@ public class TanusitvanyokService {
         tanusitvanyokRepository.save(existingEntity);
     }
 
+    public Map<String, Long> getActiveAndInactive() {
+        long activeCount = tanusitvanyokRepository.countByStatusz("Aktív");
+        long inactiveCount = tanusitvanyokRepository.countByStatusz("Inaktív");
+
+        Map<String, Long> result = new HashMap<>();
+        result.put("active", activeCount);
+        result.put("inactive", inactiveCount);
+        return result;
+    }
+
 
     private TanusitvanyModel convertToModel(Tanusitvanyok entity) {
         return new TanusitvanyModel(
@@ -69,12 +81,13 @@ public class TanusitvanyokService {
                 entity.getStatusz(),
                 entity.getKiallitoNeve(),
                 entity.getReszletek(),
-                entity.getLetrehozva()
-
+                entity.getLetrehozva(),
+                entity.getRiasztasTipus(),
+                entity.isAktiv()
         );
     }
 
-    private Tanusitvanyok convertToEntity(TanusitvanyModel model){
+    private Tanusitvanyok convertToEntity(TanusitvanyModel model) {
         return new Tanusitvanyok(
                 model.getId(),
                 model.getSzerverNev(),
@@ -85,8 +98,6 @@ public class TanusitvanyokService {
                 model.getKiallitoNeve(),
                 model.getReszletek(),
                 model.getLetrehozva()
-
         );
     }
-
 }

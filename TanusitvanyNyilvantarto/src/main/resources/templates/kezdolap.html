@@ -11,7 +11,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/kezdolap.css">
+    <style>
+        /* CSS kiegészítés a diagramhoz */
+        #certificateStatusChart {
+            width: 100%; /* A szülő div teljes szélességét használja */
+            max-width: 800px; /* Maximális szélesség, hogy ne legyen túl nagy */
+            height: auto; /* Magasság automatikus, hogy megtartsa az arányokat */
+            aspect-ratio: 4 / 3; /* Arány beállítása (opcionális) */
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 4px 4px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
 
+
+
+    </style>
 </head>
 <body>
 <nav class="sidebar closed" id="sidebar">
@@ -76,6 +93,11 @@
             <h1>Tanúsítvány Nyilvántartó Rendszer</h1>
         </div>
 
+        <div class="container  mt-5">
+        <!-- Google Charts Pie Chart -->
+        <div id="certificateStatusChart" style="width: 600px; height: 500px;"></div>
+        </div>
+
     </div>
 
 </section>
@@ -83,6 +105,48 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/alapfunkciok.js"></script>
 <script src="/js/felhasznalok.js"></script>
+
+<!-- Google Charts Loader -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Thymeleaf változókból kapott adatok
+        const activeCount = [[${active ?: 0}]];
+        const inactiveCount = [[${inactive ?: 0}]];
+
+
+        const chartData = google.visualization.arrayToDataTable([
+            ['Státusz', 'Mennyiség'],
+            ['Aktív', activeCount],
+            ['Inaktív', inactiveCount]
+        ]);
+
+
+        const options = {
+            title: 'Tanúsítványok státusza',
+            pieHole: 0.4,
+            //is3D: true,
+            colors: ['#4CAF50', '#F44336'],
+            backgroundColor: { fill: 'transparent' },
+            chartArea: { width: '90%', height: '80%' },
+            titleTextStyle: {
+                fontSize: 24,
+                bold: true,
+                color: '#000',
+                fontName: 'Arial'
+            }
+        };
+
+
+        const chart = new google.visualization.PieChart(document.getElementById('certificateStatusChart'));
+        chart.draw(chartData, options);
+    }
+    // Újrarajzolás az ablakméret változásakor
+    window.addEventListener('resize', drawChart);
+</script>
 
 </body>
 </html>

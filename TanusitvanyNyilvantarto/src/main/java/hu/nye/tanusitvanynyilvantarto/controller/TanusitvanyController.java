@@ -2,6 +2,7 @@ package hu.nye.tanusitvanynyilvantarto.controller;
 
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.model.TanusitvanyModel;
+import hu.nye.tanusitvanynyilvantarto.service.RiasztasService;
 import hu.nye.tanusitvanynyilvantarto.service.TanusitvanyokService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,11 @@ import java.util.List;
 public class TanusitvanyController {
 
     private final TanusitvanyokService tanusitvanyokService;
+    private final RiasztasService riasztasService;
 
-    public TanusitvanyController(TanusitvanyokService tanusitvanyokService){
+    public TanusitvanyController(TanusitvanyokService tanusitvanyokService, RiasztasService riasztasService){
         this.tanusitvanyokService = tanusitvanyokService;
+        this.riasztasService = riasztasService;
     }
 
     @GetMapping

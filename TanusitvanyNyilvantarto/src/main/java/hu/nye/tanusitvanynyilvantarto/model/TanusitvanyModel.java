@@ -14,24 +14,34 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class TanusitvanyModel {
 
-
     private Long id;
+
     @NotNull
     @Size(max = 30)
     private String szerverNev;
+
     @NotNull
     private String tanusitvanyTipus;
+
     @NotNull
     private LocalDate kezdetiIdo;
+
     @NotNull
     private LocalDate lejaratiIdo;
+
     @NotNull
     private String statusz;
+
     @NotNull
     private String kiallitoNeve;
+
     private String reszletek;
+
     private LocalDateTime letrehozva;
+
+    private String riasztasTipus;
+
+    private boolean aktiv;
 }
