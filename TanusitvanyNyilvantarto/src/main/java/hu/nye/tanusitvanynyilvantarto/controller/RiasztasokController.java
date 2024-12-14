@@ -18,29 +18,32 @@ public class RiasztasokController {
 
     private final RiasztasService riasztasService;
 
-        public RiasztasokController(RiasztasService riasztasService) {
-            this.riasztasService = riasztasService;
-        }
-
-        @GetMapping
-        public String getRiasztasok(org.springframework.ui.Model model) {
-            // Csak az Aktív státuszú tanúsítványokat dolgozzuk fel
-            List<RiasztasokModel> riasztasok = riasztasService.getAktivTanusitvanyok().stream()
-                    .map(tanusitvany -> {
-                        UzenetTipus riasztasTipus = riasztasService.szamoljRiasztasTipust(tanusitvany);
-                        return new RiasztasokModel(
-                                tanusitvany.getId(),
-                                tanusitvany.getSzerverNev(),
-                                riasztasTipus != null ? riasztasTipus.name() : "OK",
-                                riasztasTipus != null ? riasztasTipus.getMessage() : "Nincs riasztás"
-                        );
-                    })
-                    .filter(riasztas -> riasztas.getRiasztasTipus().equals("WARNING") ||
-                            riasztas.getRiasztasTipus().equals("CRITICAL"))
-                    .collect(Collectors.toList());
-
-            model.addAttribute("riasztasok", riasztasok);
-            return "riasztasok";
-        }
+    public RiasztasokController(RiasztasService riasztasService) {
+        this.riasztasService = riasztasService;
     }
+
+    @GetMapping
+    public String getRiasztasok(org.springframework.ui.Model model) {
+        List<RiasztasokModel> riasztasok = riasztasService.getAktivTanusitvanyok().stream()
+                .map(tanusitvany -> {
+                    UzenetTipus riasztasTipus = riasztasService.szamoljRiasztasTipust(tanusitvany);
+                    return new RiasztasokModel(
+                            tanusitvany.getId(),
+                            tanusitvany.getSzerverNev(),
+                            riasztasTipus != null ? riasztasTipus.name() : "OK",
+                            riasztasTipus != null ? riasztasTipus.getMessage() : "Nincs riasztás"
+                    );
+                })
+                .filter(riasztas -> riasztas.getRiasztasTipus().equals("WARNING") ||
+                        riasztas.getRiasztasTipus().equals("CRITICAL"))
+                .collect(Collectors.toList());
+
+        model.addAttribute("riasztasok", riasztasok);
+        boolean shouldBlink = riasztasService.shouldBlink(); // Ellenőrzés a riasztásokhoz
+        model.addAttribute("shouldBlink", shouldBlink);
+        return "riasztasok";
+    }
+
+
+}
 

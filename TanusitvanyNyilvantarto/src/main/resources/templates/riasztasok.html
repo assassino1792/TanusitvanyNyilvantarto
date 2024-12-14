@@ -13,6 +13,21 @@
     <link rel="stylesheet" href="/css/kezdolap.css">
     <link rel="stylesheet" href="/css/riasztasok.css">
 
+    <style>
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <nav class="sidebar closed" id="sidebar">
@@ -33,8 +48,8 @@
             </a>
         </li>
         <li>
-            <a href="riasztasok">
-                <i class='bx bx-bell'></i>
+            <a href="/riasztasok">
+                <i class='bx bx-bell' th:classappend="${shouldBlink} ? 'blink red' : ''"></i>
                 <span class="text">Riasztások</span>
             </a>
         </li>
@@ -85,7 +100,7 @@
                 <tr>
                     <th><i class='bx bxs-server'></i> Szerver neve</th>
                     <th><i class='bx bx-alarm'></i> Riasztás típusa</th>
-                    <th><i class='bx bx-message'></i> Üzenet</th>
+                    <th><i class='bx bx-message'></i> Hibaüzenet</th>
                 </tr>
                 </thead>
                 <tbody>

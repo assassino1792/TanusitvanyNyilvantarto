@@ -72,6 +72,14 @@ public class RiasztasService {
         System.out.println("Riasztások ellenőrzése befejeződött!");
     }
 
+    public boolean shouldBlink() {
+        return tanusitvanyokRepository.findByStatusz("Aktív").stream()
+                .anyMatch(tanusitvany -> {
+                    UzenetTipus tipus = szamoljRiasztasTipust(tanusitvany);
+                    return tipus == UzenetTipus.CRITICAL || tipus == UzenetTipus.WARNING;
+                });
+    }
+
 }
 
 

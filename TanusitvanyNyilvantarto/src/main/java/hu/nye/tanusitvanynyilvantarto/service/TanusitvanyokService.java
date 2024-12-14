@@ -2,6 +2,7 @@ package hu.nye.tanusitvanynyilvantarto.service;
 
 import hu.nye.tanusitvanynyilvantarto.entity.Tanusitvanyok;
 import hu.nye.tanusitvanynyilvantarto.model.TanusitvanyModel;
+import hu.nye.tanusitvanynyilvantarto.model.UzenetTipus;
 import hu.nye.tanusitvanynyilvantarto.repository.TanusitvanyokRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,6 @@ public class TanusitvanyokService {
         result.put("inactive", inactiveCount);
         return result;
     }
-
 
     private TanusitvanyModel convertToModel(Tanusitvanyok entity) {
         return new TanusitvanyModel(

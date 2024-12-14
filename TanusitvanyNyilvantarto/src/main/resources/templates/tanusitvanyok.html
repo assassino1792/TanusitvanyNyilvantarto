@@ -14,6 +14,21 @@
     <link rel="stylesheet" href="/css/tanusitvanyok.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
+    <style>
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <nav class="sidebar closed" id="sidebar">
@@ -35,7 +50,7 @@
         </li>
         <li>
             <a href="/riasztasok">
-                <i class='bx bx-bell'></i>
+                <i class='bx bx-bell' th:classappend="${shouldBlink} ? 'blink red' : ''"></i>
                 <span class="text">Riasztások</span>
             </a>
         </li>

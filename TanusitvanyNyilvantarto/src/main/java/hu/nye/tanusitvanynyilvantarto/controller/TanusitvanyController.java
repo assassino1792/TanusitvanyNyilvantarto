@@ -31,6 +31,8 @@ public class TanusitvanyController {
         if (!model.containsAttribute("tanusitvany")) {
             model.addAttribute("tanusitvany", new FelhasznalokModel());
         }
+        boolean shouldBlink = riasztasService.shouldBlink(); // Ellenőrzés a riasztásokhoz
+        model.addAttribute("shouldBlink", shouldBlink);
         return "tanusitvanyok";
     }
 
@@ -72,7 +74,6 @@ public class TanusitvanyController {
     public TanusitvanyModel getById(@PathVariable("id") Long id) {
         return tanusitvanyokService.findById(id);
     }
-
 
 }
 

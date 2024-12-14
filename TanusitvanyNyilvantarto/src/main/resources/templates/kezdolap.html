@@ -26,7 +26,19 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
 
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
 
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        .red {
+            color: red;
+        }
 
     </style>
 </head>
@@ -50,7 +62,7 @@
         </li>
         <li>
             <a href="/riasztasok">
-                <i class='bx bx-bell'></i>
+                <i class='bx bx-bell' th:classappend="${shouldBlink} ? 'blink red' : ''"></i>
                 <span class="text">Riasztások</span>
             </a>
         </li>

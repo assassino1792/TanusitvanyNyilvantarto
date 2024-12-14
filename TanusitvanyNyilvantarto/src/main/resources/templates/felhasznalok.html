@@ -12,7 +12,21 @@
     <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/kezdolap.css">
     <link rel="stylesheet" href="/css/felhasznalok.css?v=1.1">
+    <style>
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
 
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
 
 </head>
 <body>
@@ -36,7 +50,7 @@
         </li>
         <li>
             <a href="/riasztasok">
-                <i class='bx bx-bell'></i>
+                <i class='bx bx-bell' th:classappend="${shouldBlink} ? 'blink red' : ''"></i>
                 <span class="text">Riasztások</span>
             </a>
         </li>

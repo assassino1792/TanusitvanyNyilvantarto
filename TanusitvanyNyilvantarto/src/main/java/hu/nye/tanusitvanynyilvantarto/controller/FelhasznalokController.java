@@ -3,6 +3,7 @@ package hu.nye.tanusitvanynyilvantarto.controller;
 import hu.nye.tanusitvanynyilvantarto.entity.Felhasznalok;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.service.FelhasznalokService;
+import hu.nye.tanusitvanynyilvantarto.service.RiasztasService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +20,11 @@ import java.util.List;
 public class FelhasznalokController {
 
     private final FelhasznalokService felhasznalokService;
+    private final RiasztasService riasztasService;
 
-    public FelhasznalokController(FelhasznalokService felhasznalokService) {
+    public FelhasznalokController(FelhasznalokService felhasznalokService, RiasztasService riasztasService) {
         this.felhasznalokService = felhasznalokService;
+        this.riasztasService = riasztasService;
     }
 
     @GetMapping
@@ -32,6 +35,8 @@ public class FelhasznalokController {
         if (!model.containsAttribute("felhasznalo")) {
             model.addAttribute("felhasznalo", new FelhasznalokModel());
         }
+        boolean shouldBlink = riasztasService.shouldBlink(); // Ellenőrzés a riasztásokhoz
+        model.addAttribute("shouldBlink", shouldBlink);
         return "felhasznalok";
     }
 
