@@ -3,15 +3,21 @@ package hu.nye.tanusitvanynyilvantarto.service;
 import hu.nye.tanusitvanynyilvantarto.entity.Tanusitvanyok;
 import hu.nye.tanusitvanynyilvantarto.model.UzenetTipus;
 import hu.nye.tanusitvanynyilvantarto.repository.TanusitvanyokRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RiasztasService {
+
+    private static final Logger logger = LoggerFactory.getLogger(RiasztasService.class);
 
     private final TanusitvanyokRepository tanusitvanyokRepository;
 
@@ -79,6 +85,32 @@ public class RiasztasService {
                     return tipus == UzenetTipus.CRITICAL || tipus == UzenetTipus.WARNING;
                 });
     }
+    public Map<String, Long> KritikusWarningSzamlalo() {
+        System.out.println("KritikusWarningSzamlalo() metódus meghívva!");
+        // Csak az aktív tanúsítványok lekérdezése
+        List<Tanusitvanyok> tanusitvanyok = getAktivTanusitvanyok();
+        System.out.println("Aktív tanúsítványok száma: " + tanusitvanyok.size());
+
+        Map<String, Long> Szamlalo = new HashMap<>();
+
+        // Szűrés és számolás a tanúsítványok között
+        long criticalSzamlalo = tanusitvanyok.stream()
+                .filter(t -> szamoljRiasztasTipust(t) == UzenetTipus.CRITICAL)
+                .count();
+        long warningSzamlalo = tanusitvanyok.stream()
+                .filter(t -> szamoljRiasztasTipust(t) == UzenetTipus.WARNING)
+                .count();
+
+        logger.info("Aktív Critical riasztások száma: {}", criticalSzamlalo);
+        logger.info("Aktív Warning riasztások száma: {}", warningSzamlalo);
+
+        // Eredmények hozzáadása a Map-hez
+        Szamlalo.put("critical", criticalSzamlalo);
+        Szamlalo.put("warning", warningSzamlalo);
+
+        return Szamlalo;
+    }
+
 
 }
 

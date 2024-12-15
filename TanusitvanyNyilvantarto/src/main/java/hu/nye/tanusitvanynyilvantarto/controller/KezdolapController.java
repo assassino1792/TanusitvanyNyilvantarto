@@ -6,6 +6,7 @@ import hu.nye.tanusitvanynyilvantarto.service.TanusitvanyokService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -28,7 +29,12 @@ public class KezdolapController {
         model.addAttribute("active", statusData.get("active"));
         model.addAttribute("inactive", statusData.get("inactive"));
 
-        boolean shouldBlink = riasztasService.shouldBlink(); // Ellenőrzés a riasztásokhoz
+        // Kritikus és figyelmeztető riasztások
+        Map<String, Long> alertCounts = riasztasService.KritikusWarningSzamlalo();
+        model.addAttribute("critical", alertCounts.get("critical"));
+        model.addAttribute("warning", alertCounts.get("warning"));
+
+        boolean shouldBlink = riasztasService.shouldBlink();
         model.addAttribute("shouldBlink", shouldBlink);
 
         return "kezdolap";
@@ -40,9 +46,21 @@ public class KezdolapController {
         model.addAttribute("active", statusData.get("active"));
         model.addAttribute("inactive", statusData.get("inactive"));
 
+        // Kritikus és figyelmeztető riasztások
+        Map<String, Long> alertCounts = riasztasService.KritikusWarningSzamlalo();
+        model.addAttribute("critical", alertCounts.get("critical"));
+        model.addAttribute("warning", alertCounts.get("warning"));
+
         boolean shouldBlink = riasztasService.shouldBlink();
         model.addAttribute("shouldBlink", shouldBlink);
 
         return "kezdolap";
+    }
+
+    @GetMapping("/test-log")
+    @ResponseBody
+    public String testLog() {
+        Map<String, Long> Szamlalo = riasztasService.KritikusWarningSzamlalo();
+        return "Critical: " + Szamlalo.get("critical") + ", Warning: " + Szamlalo.get("warning");
     }
 }
