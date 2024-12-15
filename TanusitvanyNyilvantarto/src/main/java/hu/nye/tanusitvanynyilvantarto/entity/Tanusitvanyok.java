@@ -55,6 +55,9 @@ public class Tanusitvanyok {
     @Column(name = "letrehozva", updatable = false)
     private LocalDateTime letrehozva;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean expiredEmailSent = false;
+
 
 
     /**
@@ -96,9 +99,8 @@ public class Tanusitvanyok {
         return "WARNING".equals(getRiasztasTipus());
     }
 
-    public Tanusitvanyok(Long id, String szerverNev, String tanusitvanyTipus,
-                         LocalDate kezdetiIdo, LocalDate lejaratiIdo, String statusz,
-                         String kiallitoNeve, String reszletek, LocalDateTime letrehozva) {
+    public Tanusitvanyok(Long id, String szerverNev, String tanusitvanyTipus, LocalDate kezdetiIdo, LocalDate lejaratiIdo,
+                         String statusz, String kiallitoNeve, String reszletek, LocalDateTime letrehozva, boolean expiredEmailSent) {
         this.id = id;
         this.szerverNev = szerverNev;
         this.tanusitvanyTipus = tanusitvanyTipus;
@@ -108,7 +110,6 @@ public class Tanusitvanyok {
         this.kiallitoNeve = kiallitoNeve;
         this.reszletek = reszletek;
         this.letrehozva = letrehozva;
+        this.expiredEmailSent = expiredEmailSent;
     }
-
-
 }

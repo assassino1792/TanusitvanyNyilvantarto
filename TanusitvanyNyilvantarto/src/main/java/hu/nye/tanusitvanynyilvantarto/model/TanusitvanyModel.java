@@ -44,4 +44,8 @@ public class TanusitvanyModel {
     private String riasztasTipus;
 
     private boolean aktiv;
+
+    private boolean expiredEmailSent;
+
+
 }

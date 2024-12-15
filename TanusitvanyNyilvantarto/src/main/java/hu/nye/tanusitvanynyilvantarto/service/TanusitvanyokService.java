@@ -83,7 +83,8 @@ public class TanusitvanyokService {
                 entity.getReszletek(),
                 entity.getLetrehozva(),
                 entity.getRiasztasTipus(),
-                entity.isAktiv()
+                entity.isAktiv(),
+                entity.isExpiredEmailSent()
         );
     }
 
@@ -97,7 +98,8 @@ public class TanusitvanyokService {
                 model.getStatusz(),
                 model.getKiallitoNeve(),
                 model.getReszletek(),
-                model.getLetrehozva()
+                model.getLetrehozva(),
+                model.isExpiredEmailSent()
         );
     }
 }

@@ -193,7 +193,14 @@ body.dark .sidebar.closed .menu-links li .icon.moon {
 }
 
 .modal {
-color: black;}
+color: black;
+}
+
+.container {
+   border-radius: 10px;
+   overflow: hidden;
+   box-shadow: 4px 4px;
+}
 
 
 

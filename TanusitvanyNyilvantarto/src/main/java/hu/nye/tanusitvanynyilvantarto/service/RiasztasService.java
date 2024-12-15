@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RiasztasService {
@@ -20,6 +18,9 @@ public class RiasztasService {
     private static final Logger logger = LoggerFactory.getLogger(RiasztasService.class);
 
     private final TanusitvanyokRepository tanusitvanyokRepository;
+
+    // E-mail küldési nyomkövetés a már lejárt tanúsítványokhoz
+    private final Set<Long> alreadyExpired = new HashSet<>();
 
     public RiasztasService(TanusitvanyokRepository tanusitvanyokRepository) {
         this.tanusitvanyokRepository = tanusitvanyokRepository;

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -63,4 +64,5 @@ public class KezdolapController {
         Map<String, Long> Szamlalo = riasztasService.KritikusWarningSzamlalo();
         return "Critical: " + Szamlalo.get("critical") + ", Warning: " + Szamlalo.get("warning");
     }
+
 }
