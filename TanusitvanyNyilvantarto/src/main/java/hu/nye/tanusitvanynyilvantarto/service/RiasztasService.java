@@ -44,11 +44,11 @@ public class RiasztasService {
         long daysToExpiry = ChronoUnit.DAYS.between(LocalDate.now(), lejaratiIdo);
 
         if (daysToExpiry <= 0) {
-            return UzenetTipus.EXPIRED;
+            return UzenetTipus.Lejárt;
         } else if (daysToExpiry <= 3) {
-            return UzenetTipus.CRITICAL;
+            return UzenetTipus.Kritikus;
         } else if (daysToExpiry <= 14) {
-            return UzenetTipus.WARNING;
+            return UzenetTipus.Figyelmeztetés;
         }
         return null; // Nem kell riasztás
     }
@@ -66,7 +66,7 @@ public class RiasztasService {
         for (Tanusitvanyok tanusitvany : tanusitvanyok) {
             UzenetTipus riasztasTipus = szamoljRiasztasTipust(tanusitvany);
 
-            if (riasztasTipus == UzenetTipus.EXPIRED) {
+            if (riasztasTipus == UzenetTipus.Lejárt) {
                 System.out.printf("Lejárt tanúsítvány státuszának frissítése: %s%n", tanusitvany.getSzerverNev());
                 tanusitvany.setStatusz("Inaktív"); // Státusz módosítása
                 tanusitvanyokRepository.save(tanusitvany); // Mentés az adatbázisba
@@ -83,7 +83,7 @@ public class RiasztasService {
         return tanusitvanyokRepository.findByStatusz("Aktív").stream()
                 .anyMatch(tanusitvany -> {
                     UzenetTipus tipus = szamoljRiasztasTipust(tanusitvany);
-                    return tipus == UzenetTipus.CRITICAL || tipus == UzenetTipus.WARNING;
+                    return tipus == UzenetTipus.Kritikus || tipus == UzenetTipus.Figyelmeztetés;
                 });
     }
     public Map<String, Long> KritikusWarningSzamlalo() {
@@ -96,10 +96,10 @@ public class RiasztasService {
 
         // Szűrés és számolás a tanúsítványok között
         long criticalSzamlalo = tanusitvanyok.stream()
-                .filter(t -> szamoljRiasztasTipust(t) == UzenetTipus.CRITICAL)
+                .filter(t -> szamoljRiasztasTipust(t) == UzenetTipus.Kritikus)
                 .count();
         long warningSzamlalo = tanusitvanyok.stream()
-                .filter(t -> szamoljRiasztasTipust(t) == UzenetTipus.WARNING)
+                .filter(t -> szamoljRiasztasTipust(t) == UzenetTipus.Figyelmeztetés)
                 .count();
 
         logger.info("Aktív Critical riasztások száma: {}", criticalSzamlalo);

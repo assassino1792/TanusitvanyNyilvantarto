@@ -36,11 +36,11 @@ public class Riasztasok {
         long daysToExpiry = java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.now(), tanusitvany.getLejaratiIdo());
 
         if (daysToExpiry < 0) {
-            return "EXPIRED";
+            return "Lejárt";
         } else if (daysToExpiry <= 3) {
-            return "CRITICAL";
+            return "Kritikus";
         } else if (daysToExpiry <= 14) {
-            return "WARNING";
+            return "Figyelmeztetés";
         }
         return "OK";
     }

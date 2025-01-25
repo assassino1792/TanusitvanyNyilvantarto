@@ -32,7 +32,7 @@ public class ErtesitesIdozitoKikuldo {
         for (Tanusitvanyok tanusitvany : aktivTanusitvanyok) {
             UzenetTipus tipus = RiasztasTipus(tanusitvany);
 
-            if (tipus == UzenetTipus.EXPIRED && !tanusitvany.isExpiredEmailSent()) {
+            if (tipus == UzenetTipus.Lejárt && !tanusitvany.isExpiredEmailSent()) {
                 // Csak akkor küldünk e-mailt, ha még nem küldtük el
                 String email = ertesitesService.getErtesitesiEmail(tanusitvany);
                 String tartalom = ertesitesService.getErtesitesTartalom(tanusitvany, tipus);
@@ -44,7 +44,7 @@ public class ErtesitesIdozitoKikuldo {
                 tanusitvanyokRepository.save(tanusitvany);
 
                 System.out.printf("Értesítés elküldve az EXPIRED állapotról: %s -> %s%n", email, tipus);
-            } else if (tipus == UzenetTipus.CRITICAL || tipus == UzenetTipus.WARNING) {
+            } else if (tipus == UzenetTipus.Kritikus || tipus == UzenetTipus.Figyelmeztetés) {
                 String email = ertesitesService.getErtesitesiEmail(tanusitvany);
                 String tartalom = ertesitesService.getErtesitesTartalom(tanusitvany, tipus);
 
@@ -62,11 +62,11 @@ public class ErtesitesIdozitoKikuldo {
         );
 
         if (daysToExpiry <= 0) {
-            return UzenetTipus.EXPIRED;
+            return UzenetTipus.Lejárt;
         } else if (daysToExpiry <= 3) {
-            return UzenetTipus.CRITICAL;
+            return UzenetTipus.Kritikus;
         } else if (daysToExpiry <= 14) {
-            return UzenetTipus.WARNING;
+            return UzenetTipus.Figyelmeztetés;
         }
         return null;
     }

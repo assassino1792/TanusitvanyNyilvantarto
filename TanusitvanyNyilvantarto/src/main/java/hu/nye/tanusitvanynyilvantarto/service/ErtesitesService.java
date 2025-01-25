@@ -21,21 +21,21 @@ public class ErtesitesService {
         String body;
 
         switch (tipus) {
-            case EXPIRED:
+            case Lejárt:
                 subject = "Tanúsítvány lejárt!";
                 body = String.format(
                         "Tisztelt Ügyfél!\n\nA(z) %s tanúsítvány lejárt.\nKérjük, frissítse a tanúsítványt.\n\nÜdvözlettel,\nRendszer",
                         tanusitvany.getSzerverNev()
                 );
                 break;
-            case CRITICAL:
+            case Kritikus:
                 subject = "Tanúsítvány kritikus állapotban!";
                 body = String.format(
                         "Tisztelt Ügyfél!\n\nA(z) %s tanúsítvány kritikus állapotban van.\nHátralévő idő: %d nap.\n\nKérjük, mielőbb frissítse a tanúsítványt.\n\nÜdvözlettel,\nRendszer",
                         tanusitvany.getSzerverNev(), daysToExpiry
                 );
                 break;
-            case WARNING:
+            case Figyelmeztetés:
                 subject = "Tanúsítvány figyelmeztetés!";
                 body = String.format(
                         "Tisztelt Ügyfél!\n\nA(z) %s tanúsítvány %d nap múlva lejár.\nKérjük, frissítse a tanúsítványt időben.\n\nÜdvözlettel,\nRendszer",

@@ -5,11 +5,16 @@ import hu.nye.tanusitvanynyilvantarto.model.TanusitvanyModel;
 import hu.nye.tanusitvanynyilvantarto.service.RiasztasService;
 import hu.nye.tanusitvanynyilvantarto.service.TanusitvanyokService;
 import jakarta.validation.Valid;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Controller
@@ -59,20 +64,36 @@ public class TanusitvanyController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@PathVariable("id") Long id, @ModelAttribute TanusitvanyModel tanusitvany, RedirectAttributes redirectAttributes) {
+    public String update(@PathVariable("id") Long id, @ModelAttribute @Valid TanusitvanyModel tanusitvany, RedirectAttributes redirectAttributes) {
         try {
             tanusitvanyokService.update(id, tanusitvany);
-            redirectAttributes.addFlashAttribute("successEditMessage","Tanúsítvány adatok módosultak.");
-        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("successEditMessage", "Tanúsítvány adatok módosultak.");
+        } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorEditMessage", e.getMessage());
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorEditMessage",  e.getMessage());
         }
         return "redirect:/tanusitvanyok";
     }
+
 
     @GetMapping("/{id}")
     @ResponseBody
     public TanusitvanyModel getById(@PathVariable("id") Long id) {
         return tanusitvanyokService.findById(id);
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<InputStreamResource> exportTanusitvanyok() {
+        ByteArrayInputStream csvData = tanusitvanyokService.exportTanusitvanyokToCSV();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=tanusitvanyok.csv");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.parseMediaType("text/csv"))
+                .body(new InputStreamResource(csvData));
     }
 
 }

@@ -1,42 +1,87 @@
+.table {
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 4px 4px;
+    width: 99.5%;
+    table-layout: auto;
+}
+.parent {
+    overflow: visible;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    word-wrap: break-word; /* Szövegek törése kis cellákban */
+    white-space: nowrap; /* Sortörés megakadályozása */
+}
+
+.alert {
+    animation: fadeOut 10s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.modal-header {
+    background-color: black;
+    color: white;
+    border-bottom: 1px solid #444;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+.custom-textarea {
+    text-align: left;
+    padding: 10px;
+}
+th div {
+    display: flex;
+    justify-content: space-between; /* Szöveg és nyíl közötti távolság */
+    align-items: center; /* Vertikálisan középre igazítás */
+    white-space: nowrap; /* Ne legyen sortörés */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
     .table {
-         border-radius: 10px;
-         overflow: hidden;
-         box-shadow: 4px 4px;
-     }
-
-     .table-bordered {
-         border: 1px solid #dee2e6;
-     }
-
-     .table th,
-     .table td {
-        text-align: center;
+        font-size: 0.9rem;
+        padding: 10px;
     }
 
-     .alert {
-        animation: fadeOut 10s forwards;
+    .table th,
+    .table td {
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.8rem;
     }
 
-    @keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-            display: none;
-        }
+    .table th:nth-child(5),
+    .table th:nth-child(6),
+    .table td:nth-child(5),
+    .table td:nth-child(6) {
+        display: none;
     }
+}
 
-    .modal-header {
-        background-color: black;
-        color: white;
-        border-bottom: 1px solid #444;
-     }
-
-     .modal-header .btn-close {
-        filter: invert(1);
-     }
-      .custom-textarea {
-             text-align: left;
-             padding: 10px;
-         }
+@media (max-width: 576px) {
+    .table {
+        font-size: 0.7rem;
+    }
+}

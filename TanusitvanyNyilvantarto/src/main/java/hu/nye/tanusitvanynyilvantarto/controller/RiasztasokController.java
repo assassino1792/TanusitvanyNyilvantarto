@@ -34,8 +34,8 @@ public class RiasztasokController {
                             riasztasTipus != null ? riasztasTipus.getMessage() : "Nincs riasztás"
                     );
                 })
-                .filter(riasztas -> riasztas.getRiasztasTipus().equals("WARNING") ||
-                        riasztas.getRiasztasTipus().equals("CRITICAL"))
+                .filter(riasztas -> riasztas.getRiasztasTipus().equals("Figyelmeztetés") ||
+                        riasztas.getRiasztasTipus().equals("Kritikus"))
                 .collect(Collectors.toList());
 
         model.addAttribute("riasztasok", riasztasok);

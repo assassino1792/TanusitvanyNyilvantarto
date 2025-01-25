@@ -7,6 +7,10 @@ import hu.nye.tanusitvanynyilvantarto.repository.TanusitvanyokRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +51,10 @@ public class TanusitvanyokService {
     }
 
     public void update(Long id, TanusitvanyModel updateModel) {
+        if (updateModel.getKezdetiIdo().isAfter(updateModel.getLejaratiIdo())) {
+            throw new IllegalArgumentException("A tanúsítvány lejárati ideje nem lehet kisebb, mint tanúsítvány kezdete!");
+        }
+
         Tanusitvanyok existingEntity = tanusitvanyokRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id + " id nem található!"));
 
@@ -102,4 +110,45 @@ public class TanusitvanyokService {
                 model.isExpiredEmailSent()
         );
     }
+
+    public ByteArrayInputStream exportTanusitvanyokToCSV() {
+        List<Tanusitvanyok> tanusitvanyok = tanusitvanyokRepository.findAll();
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            // BOM hozzáadása az UTF-8 kódoláshoz
+            out.write(0xEF);
+            out.write(0xBB);
+            out.write(0xBF);
+
+            try (PrintWriter writer = new PrintWriter(out, true, StandardCharsets.UTF_8)) {
+                // Fejléc létrehozása
+                writer.println("ID,Szerver neve,Tanúsítvány típusa,Kezdeti idő,Lejárati idő,Státusz,Kiállító neve,Részletek");
+
+                // Sorok exportálása
+                for (Tanusitvanyok tanusitvany : tanusitvanyok) {
+                    String reszletekNoLineBreak = tanusitvany.getReszletek().replaceAll("\\r?\\n", " "); // Sortörések cseréje szóközre
+
+                    writer.printf("%d,%s,%s,%s,%s,%s,%s,%s%n",
+                            tanusitvany.getId(),
+                            tanusitvany.getSzerverNev(),
+                            tanusitvany.getTanusitvanyTipus(),
+                            tanusitvany.getKezdetiIdo(),
+                            tanusitvany.getLejaratiIdo(),
+                            tanusitvany.getStatusz(),
+                            tanusitvany.getKiallitoNeve(),
+                            reszletekNoLineBreak); // Formázott "részletek" mező
+                }
+
+                writer.flush();
+            }
+
+            return new ByteArrayInputStream(out.toByteArray());
+
+        } catch (Exception e) {
+            throw new RuntimeException("Hiba a CSV exportálás során", e);
+        }
+    }
+
+
+
 }
