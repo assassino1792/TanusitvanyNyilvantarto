@@ -49,20 +49,25 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/public/**", "/bejelentkezes", "/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/kezdolap", true)
+                        .loginPage("/bejelentkezes") // Saját bejelentkezési oldal
+                        .loginProcessingUrl("/do-login") // A hitelesítés feldolgozásának URL-je
+                        .defaultSuccessUrl("/kezdolap", true) // Sikeres bejelentkezés után
+                        .failureUrl("/bejelentkezes?error=true") // Hibás hitelesítés után
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/bejelentkezes?logout=true") // Kijelentkezés után
                         .permitAll()
                 );
 
         return http.build();
     }
+
+
 
 }
