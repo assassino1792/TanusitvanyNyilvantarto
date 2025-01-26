@@ -8,8 +8,11 @@ import lombok.Setter;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -43,27 +46,39 @@ public class Felhasznalok {
     private String email;
 
     @NotNull
-    @Size(min = 6, max = 30, message = "A jelszónak legalább 6 és legfeljebb 30 karakter hosszúnak kell lennie.")
+    @Size(min = 6, message = "A jelszónak legalább 6 és legfeljebb 30 karakter hosszúnak kell lennie.")
     @Column(name ="jelszo", nullable = false)
     private String jelszo;
+
+    @OneToMany(mappedBy = "felhasznalo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Jogosultsag> jogosultsagok = new HashSet<>();
+
 
     @Column(name = "letrehozva", updatable = false)
     private LocalDateTime letrehozva;
 
 
     public Felhasznalok(Long id, String felhasznaloNev, String vezetekNev, String keresztNev, String email, String jelszo,
-                        LocalDateTime letrehozva) {
+                        Set<Jogosultsag> jogosultsagok, LocalDateTime letrehozva) {
         this.id = id;
         this.felhasznaloNev = felhasznaloNev;
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
         this.email = email;
         this.jelszo = jelszo;
+        this.jogosultsagok = new HashSet<>();
         this.letrehozva = letrehozva;
     }
 
     @PrePersist
-    public void onCreate() {
-        this.letrehozva = LocalDateTime.now();
+    public void prePersist() {
+        if (this.letrehozva == null) {
+            this.letrehozva = LocalDateTime.now();
+        }
+        if (this.jelszo != null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            this.jelszo = passwordEncoder.encode(this.jelszo);
+        }
     }
+
 }

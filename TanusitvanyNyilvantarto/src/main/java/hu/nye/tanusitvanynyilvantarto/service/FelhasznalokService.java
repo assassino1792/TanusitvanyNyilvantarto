@@ -1,9 +1,13 @@
 package hu.nye.tanusitvanynyilvantarto.service;
 
 import hu.nye.tanusitvanynyilvantarto.entity.Felhasznalok;
+import hu.nye.tanusitvanynyilvantarto.entity.Jogosultsag;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
+import hu.nye.tanusitvanynyilvantarto.model.Szerepkor;
 import hu.nye.tanusitvanynyilvantarto.repository.FelhasznalokRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,7 +23,17 @@ public class FelhasznalokService {
 
     public List<FelhasznalokModel> findAll() {
         return felhasznalokRepository.findAll().stream()
-                .map(this::convertToModel)
+                .map(user -> {
+                    FelhasznalokModel model = convertToModel(user);
+
+                    // Szerepkör betöltése
+                    String roles = user.getJogosultsagok().stream()
+                            .map(jogosultsag -> jogosultsag.getAuthority().name()) // Szerepkör neve (USER, ADMIN)
+                            .collect(Collectors.joining(", "));
+                    model.setSzerepkor(roles);
+
+                    return model;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -70,6 +84,10 @@ public class FelhasznalokService {
 
     //Modelre kovertálás
     private FelhasznalokModel convertToModel(Felhasznalok entity) {
+        String roles = entity.getJogosultsagok().stream()
+                .map(jogosultsag -> jogosultsag.getAuthority().name()) // Enum névként (USER, ADMIN)
+                .collect(Collectors.joining(", "));
+
         return new FelhasznalokModel(
                 entity.getId(),
                 entity.getFelhasznaloNev(),
@@ -77,21 +95,33 @@ public class FelhasznalokService {
                 entity.getKeresztNev(),
                 entity.getEmail(),
                 entity.getJelszo(),
+                roles,
                 entity.getLetrehozva()
-
         );
     }
     // Entitásra konvertálás
-    private Felhasznalok convertToEntity(FelhasznalokModel model){
-        return new Felhasznalok(
+    private Felhasznalok convertToEntity(FelhasznalokModel model) {
+        Felhasznalok entity = new Felhasznalok(
                 model.getId(),
                 model.getFelhasznalonev(),
                 model.getVezeteknev(),
                 model.getKeresztnev(),
                 model.getEmail(),
                 model.getJelszo(),
+                new HashSet<>(),
                 model.getLetrehozva()
         );
+
+        // Szerepkörök hozzáadása
+        if (model.getSzerepkor() != null) {
+            Jogosultsag jogosultsag = new Jogosultsag();
+            jogosultsag.setAuthority(Szerepkor.valueOf(model.getSzerepkor())); // Enum konverzió
+            jogosultsag.setFelhasznalo(entity);
+            entity.getJogosultsagok().add(jogosultsag);
+        }
+
+        return entity;
     }
+
 
 }

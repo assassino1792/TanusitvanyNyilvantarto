@@ -26,13 +26,9 @@ public class FelhasznalokModel {
     private String vezeteknev;
     private String keresztnev;
     private String email;
+    private String szerepkor;
     @NotNull
     @Size(min = 6, max = 30, message = "A jelszónak legalább 6 és legfeljebb 30 karakter hosszúnak kell lennie.")
-    @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&_\\-])[A-Za-z\\d@$!%*?&_\\-]{6,}$",
-            message = "A jelszónak tartalmaznia kell kisbetűt, nagybetűt, számot, speciális karaktert (pl. @, $, _, -, stb.)," +
-                    " és legalább 6 karakter hosszúnak kell lennie."
-    )
     private String jelszo;
     private LocalDateTime letrehozva;
     }

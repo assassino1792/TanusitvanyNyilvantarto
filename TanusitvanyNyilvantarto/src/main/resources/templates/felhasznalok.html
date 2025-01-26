@@ -93,7 +93,7 @@
             </a>
         </li>
         <li class="logout">
-            <a href="#" onclick="logout()">
+            <a href="/logout">
                 <i class='bx bx-log-out'></i>
                 <span class="text">Kijelentkezés</span>
             </a>
@@ -107,8 +107,6 @@
             <img src="/image/LM2.png" width="60" height="60" class="lmlogo">
             <h1>Tanúsítvány Nyilvántartó Rendszer</h1>
         </div>
-
-
 
         <div style="overflow-x:auto;">
             <div class="custom-container mt-5 p-4">
@@ -143,6 +141,7 @@
                         <th><i class='bx bxs-user'></i> Vezetéknév</th>
                         <th><i class='bx bxs-user'></i> Keresztnév</th>
                         <th><i class='bx bx-envelope'></i> E-mail</th>
+                        <th><i class='bx bx-cog'></i> Szerepkör</th>
                         <th class="td_muvelet"><i class='bx bx-cog'></i> Műveletek</th>
                     </tr>
                     </thead>
@@ -152,6 +151,7 @@
                         <td th:text="${felhasznalo.vezeteknev}"></td>
                         <td th:text="${felhasznalo.keresztnev}"></td>
                         <td th:text="${felhasznalo.email}"></td>
+                        <td th:text="${felhasznalo.szerepkor}"></td>
                         <td class="td_muvelet">
                             <!-- Új jelszó -->
                             <div class="d-inline-block">
@@ -200,8 +200,14 @@
                         <input type="text" id="newAddUserFirstname" name="keresztnev" class="form-control" placeholder="Keresztnév" required minlength="3" maxlength="30">
                         <label for="newAddUserEmail" class="form-label">Email:</label>
                         <input type="email" id="newAddUserEmail" name="email" class="form-control" placeholder="Email" required >
+                        <label for="newAddUserRole" class="form-label">Szerepkör:</label>
+                        <select id="newAddUserRole" name="szerepkor" class="form-select" required>
+                            <option value="" disabled selected>Válasszon szerepkört</option>
+                            <option value="USER">User</option>
+                            <option value="ADMIN">Admin</option>
+                        </select>
                         <label for="newAddUserPassword" class="form-label">Jelszó:</label>
-                        <label>Kis-és nagybetű, szám és különleges karakter</label>
+                        <label>A jelszónak legalább 6 karekter hosszúnak kell lennie!</label>
                         <input type="password" id="newAddUserPassword" name="jelszo" class="form-control" placeholder="Jelszó" required minlength="6">
                     </div>
                     <div class="modal-footer">

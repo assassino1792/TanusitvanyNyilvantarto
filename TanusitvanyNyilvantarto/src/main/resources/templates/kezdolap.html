@@ -95,7 +95,7 @@
             </a>
         </li>
         <li class="logout">
-            <a href="#" onclick="logout()">
+            <a href="/logout">
                 <i class='bx bx-log-out'></i>
                 <span class="text">Kijelentkezés</span>
             </a>
@@ -130,14 +130,8 @@
                 <div class="col-lg-6 col-md-12">
                     <div id="alertStatusChart" style="width: 100%; height: 500px;"></div>
                 </div>
-
             </div>
-
         </div>
-
-
-
-
     </div>
 
 </section>
@@ -152,8 +146,6 @@
     google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawCertificateStatusChart);
     google.charts.setOnLoadCallback(drawAlertStatusChart);
-
-
 
     function drawCertificateStatusChart() {
         // Aktív és inaktív tanúsítványok Thymeleaf változókból
@@ -216,7 +208,5 @@
         drawAlertStatusChart();
     });
 </script>
-
-
 </body>
 </html>
