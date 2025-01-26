@@ -27,25 +27,30 @@ public class DefaultAdminConfig {
 
     @PostConstruct
     public void createDefaultAdmin() {
-        if (felhasznalokRepository.count() == 0) { // Csak ha üres az adatbázis
-            // Admin jogosultság ellenőrzése vagy létrehozása
-            Jogosultsag adminJogosultsag = jogosultsagRepository.findByAuthority(Szerepkor.ADMIN)
-                    .orElseGet(() -> {
-                        Jogosultsag newJogosultsag = new Jogosultsag();
-                        newJogosultsag.setAuthority(Szerepkor.ADMIN); // Enum használata
-                        return jogosultsagRepository.save(newJogosultsag);
-                    });
+        if (!felhasznalokRepository.existsByFelhasznaloNev("admin")) {
+            System.out.println("Admin user does not exist, creating admin...");
 
-            // Default admin létrehozása
+            // Default admin felhasználó létrehozása
             Felhasznalok admin = new Felhasznalok();
             admin.setFelhasznaloNev("admin");
-            admin.setJelszo(passwordEncoder.encode("admin123"));
-            admin.setJogosultsagok(Collections.singleton(adminJogosultsag)); // Kapcsolat a szerepkörrel
-            felhasznalokRepository.save(admin);
+            admin.setVezetekNev("Admin");
+            admin.setKeresztNev("Admin");
+            admin.setEmail("admin@example.com");
+            admin.setJelszo(passwordEncoder.encode("admin123")); // Titkosított jelszó
+            felhasznalokRepository.save(admin); // Előbb mentjük a felhasználót, hogy legyen ID-je
+
+            // Admin jogosultság létrehozása
+            Jogosultsag adminJogosultsag = new Jogosultsag();
+            adminJogosultsag.setAuthority(Szerepkor.ADMIN);
+            adminJogosultsag.setFelhasznalo(admin); // Beállítjuk a felhasználót
+            jogosultsagRepository.save(adminJogosultsag); // Mentjük a jogosultságot
 
             System.out.println("Default admin user created: username='admin', password='admin123'");
+        } else {
+            System.out.println("Admin user already exists.");
         }
     }
+
 }
 
 
