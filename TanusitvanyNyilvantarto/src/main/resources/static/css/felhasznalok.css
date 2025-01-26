@@ -10,8 +10,10 @@
 
      .table {
          border-radius: 10px;
-         overflow: hidden;
+         overflow-x: auto;
          box-shadow: 4px 4px;
+         table-layout: auto;
+         width:99.5%;
      }
 
      .table-bordered {

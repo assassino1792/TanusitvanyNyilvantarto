@@ -110,78 +110,79 @@
 
 
 
-            <div style="overflow-x:auto;">
-                <div class="custom-container mt-5 p-4">
-                    <div class="col-12 text-center bg-secondary text-white py-2 rounded">
-                        <h3 class="text-center">Felhasználók</h3>
-                    </div>
-                    <!------------------------------------------ ALERTEK -------------------------------------------------------->
-                    <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
-                        <span th:text="${errorMessage}"></span>
-                    </div>
-                    <div th:if="${successMessage}" class="alert alert-success mt-3" role="alert">
-                        <span th:text="${successMessage}"></span>
-                    </div>
-                    <div th:if="${successEditMessage}" class="alert alert-success mt-3" role="alert">
-                        <span th:text="${successEditMessage}"></span>
-                    </div>
-                    <div th:if="${successDeletedMessage}" class="alert alert-success mt-3" role="alert">
-                        <span th:text="${successDeletedMessage}"></span>
-                    </div>
+        <div style="overflow-x:auto;">
+            <div class="custom-container mt-5 p-4">
+                <div class="col-12 text-center bg-secondary text-white py-2 rounded">
+                    <h3 class="text-center">Felhasználók</h3>
+                </div>
+                <!------------------------------------------ ALERTEK -------------------------------------------------------->
+                <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+                <div th:if="${successMessage}" class="alert alert-success mt-3" role="alert">
+                    <span th:text="${successMessage}"></span>
+                </div>
+                <div th:if="${successEditMessage}" class="alert alert-success mt-3" role="alert">
+                    <span th:text="${successEditMessage}"></span>
+                </div>
+                <div th:if="${successDeletedMessage}" class="alert alert-success mt-3" role="alert">
+                    <span th:text="${successDeletedMessage}"></span>
+                </div>
                 <div class="AddNewUserContainer mt-3">
                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal" title="Felhasználó hozzáadása">
                         <i class='bx bxs-user-plus'></i> Új felhasználó
                     </button>
                 </div>
 
-        <!------------------------------------------ TÁBLÁZAT -------------------------------------------------------->
-
-                <table class="table table-striped table table-hover mt-3">
+                <!------------------------------------------ TÁBLÁZAT -------------------------------------------------------->
+                <div class="table-responsive">
+                <table class="table table-striped  table-hover mt-3">
                     <thead class="table-dark">
-                        <tr>
-                            <th><i class='bx bxs-user' ></i> Felhasználónév</th>
-                            <th><i class='bx bxs-user' ></i> Vezetéknév</th>
-                            <th><i class='bx bxs-user' ></i> Keresztnév</th>
-                            <th><i class='bx bx-envelope' ></i> E-mail</th>
-                            <th class="td_muvelet"><i class='bx bx-cog'></i> Műveletek</th>
-                        </tr>
+                    <tr>
+                        <th><i class='bx bxs-user'></i> Felhasználónév</th>
+                        <th><i class='bx bxs-user'></i> Vezetéknév</th>
+                        <th><i class='bx bxs-user'></i> Keresztnév</th>
+                        <th><i class='bx bx-envelope'></i> E-mail</th>
+                        <th class="td_muvelet"><i class='bx bx-cog'></i> Műveletek</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="felhasznalo : ${felhasznalok}">
-                            <td th:text="${felhasznalo.felhasznalonev}"></td>
-                            <td th:text="${felhasznalo.vezeteknev}"></td>
-                            <td th:text="${felhasznalo.keresztnev}"></td>
-                            <td th:text="${felhasznalo.email}"></td>
-                            <td class="td_muvelet">
-                                <!-- Új jelszó -->
-                        <div class="d-inline-block">
-                            <button class="btn btn-primary btn-sm openModal" data-bs-toggle="modal" data-bs-target="#passwordModal"
-                                    th:data-id="${felhasznalo.id}" title="Jelszó módosítás">
-                                <i class='bx bxs-key'></i>
-                            </button>
-                        </div>
-                        <!-- Szerkesztés -->
-                        <div class="d-inline-block">
+                    <tr th:each="felhasznalo : ${felhasznalok}">
+                        <td th:text="${felhasznalo.felhasznalonev}"></td>
+                        <td th:text="${felhasznalo.vezeteknev}"></td>
+                        <td th:text="${felhasznalo.keresztnev}"></td>
+                        <td th:text="${felhasznalo.email}"></td>
+                        <td class="td_muvelet">
+                            <!-- Új jelszó -->
+                            <div class="d-inline-block">
+                                <button class="btn btn-primary btn-sm openModal" data-bs-toggle="modal" data-bs-target="#passwordModal"
+                                        th:data-id="${felhasznalo.id}" title="Jelszó módosítás">
+                                    <i class='bx bxs-key'></i>
+                                </button>
+                            </div>
+                            <!-- Szerkesztés -->
+                            <div class="d-inline-block">
                                 <button class="btn btn-warning btn-sm openModal" data-bs-toggle="modal" data-bs-target="#editModal"
                                         th:data-id="${felhasznalo.id}" title="Szerkesztés">
                                     <i class='bx bx-edit-alt'></i>
                                 </button>
-                        </div>
-                        <!-- Törlés -->
-                        <div class="d-inline-block">
-                            <button type="button" class="btn btn-danger btn-sm deleteButton" th:data-id="${felhasznalo.id}" title="Törlés">
-                                <i class='bx bx-trash icon'></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                            </div>
+                            <!-- Törlés -->
+                            <div class="d-inline-block">
+                                <button type="button" class="btn btn-danger btn-sm deleteButton" th:data-id="${felhasznalo.id}" title="Törlés">
+                                    <i class='bx bx-trash icon'></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
             </div>
-            </div>
-    </div>
+        </div>
 
-    <!-- Hozzáadás Modal -->
+
+        <!-- Hozzáadás Modal -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

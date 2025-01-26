@@ -56,7 +56,7 @@ public class RiasztasService {
     /**
      * Időzített riasztás ellenőrzés. Minden nap egyszer fut.
      */
-    /*@Scheduled(cron = "0 0 0 * * *") // Minden nap éjfélkor */
+    //@Scheduled(cron = "0 0 0 * * *") // Minden nap éjfélkor */
     @Scheduled(cron = "0 */2 * * * *") // 2 percenként
     public void ellenorizdRiasztasokat() {
         System.out.println("Riasztások ellenőrzése elkezdődött...");
