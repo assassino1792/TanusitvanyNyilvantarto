@@ -5,6 +5,7 @@ import hu.nye.tanusitvanynyilvantarto.entity.Jogosultsag;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.model.Szerepkor;
 import hu.nye.tanusitvanynyilvantarto.repository.FelhasznalokRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 public class FelhasznalokService {
 
     private final FelhasznalokRepository felhasznalokRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public FelhasznalokService(FelhasznalokRepository felhasznalokRepository) {
+    public FelhasznalokService(FelhasznalokRepository felhasznalokRepository, PasswordEncoder passwordEncoder) {
         this.felhasznalokRepository = felhasznalokRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<FelhasznalokModel> findAll() {
@@ -78,7 +81,8 @@ public class FelhasznalokService {
     public void updateJelszo(Long id, String ujJelszo) {
         Felhasznalok existingUser = felhasznalokRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Felhasználó nem található: " + id));
-        existingUser.setJelszo(ujJelszo);
+        String hashedPassword = passwordEncoder.encode(ujJelszo);
+        existingUser.setJelszo(hashedPassword);
         felhasznalokRepository.save(existingUser);
     }
 

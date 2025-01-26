@@ -1,8 +1,5 @@
 package hu.nye.tanusitvanynyilvantarto.model;
 
-
-import jakarta.persistence.PrePersist;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
