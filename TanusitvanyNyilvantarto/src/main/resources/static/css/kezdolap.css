@@ -145,6 +145,9 @@ body.dark .icon.sun {
     cursor: pointer;
     color: #695CFE;
 }
+#toggle-icon {
+    transition: transform 0.3s ease;
+}
 
 .home {
     margin-left: 230px;

@@ -22,9 +22,22 @@ const body = document.querySelector('body'),
         }
     }
 
-    function logout() {
-            alert("Sikeres kijelentkezés!");
-        }
+    function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const home = document.querySelector('.home');
+    const toggleIcon = document.getElementById('toggle-icon');
+
+    sidebar.classList.toggle('closed');
+    home.classList.toggle('home-closed');
+
+    // Változtatja az ikon állapotát
+    if (sidebar.classList.contains('closed')) {
+        toggleIcon.classList.replace('bxs-chevron-left-square', 'bxs-chevron-right-square');
+    } else {
+        toggleIcon.classList.replace('bxs-chevron-right-square', 'bxs-chevron-left-square');
+    }
+}
+
 
 
 
