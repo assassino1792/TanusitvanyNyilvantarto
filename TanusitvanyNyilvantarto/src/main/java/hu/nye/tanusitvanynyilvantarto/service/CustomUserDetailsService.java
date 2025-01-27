@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(FelhasznalokRepository felhasznalokRepository) {
         this.felhasznalokRepository = felhasznalokRepository;
     }
-
+    //https://stackoverflow.com/questions/59417122/how-to-handle-usernamenotfoundexception-spring-security
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Felhasznalok felhasznalo = felhasznalokRepository.findByFelhasznaloNev(username)
@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // Szerepkörök (jogosultságok) kinyerése
         Set<String> roles = felhasznalo.getJogosultsagok().stream()
-                .map(Jogosultsag::getAuthority) // A Jogosultsag osztályban `getAuthority` metódus a megfelelő
+                .map(Jogosultsag::getAuthority) // Jogosultság osztályból visszadja, hogy user vagy admin
                 .map(Enum::name) // Az Enum értékeket szöveggé alakítjuk
                 .collect(Collectors.toSet());
 

@@ -34,6 +34,8 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user);
     }
     */
+
+    //https://stackoverflow.com/questions/77504542/rewriting-a-spring-security-deprecated-authenticationmanager-httpsecurity
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -43,7 +45,7 @@ public class SecurityConfig {
                 .build();
     }
 
-
+    //https://stackoverflow.com/questions/79370047/spring-security-form-dont-want-to-login
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
