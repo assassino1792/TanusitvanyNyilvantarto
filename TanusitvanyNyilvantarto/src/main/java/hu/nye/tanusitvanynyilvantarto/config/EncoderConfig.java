@@ -10,6 +10,7 @@ public class EncoderConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        System.out.println("PasswordEncoder Bean létrejött az EncoderConfig osztályban.");
         return new BCryptPasswordEncoder();
     }
 }

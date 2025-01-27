@@ -9,12 +9,11 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-
 @Component
 public class DefaultAdminConfig {
     private final FelhasznalokRepository felhasznalokRepository;
     private final JogosultsagRepository jogosultsagRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     public DefaultAdminConfig(FelhasznalokRepository felhasznalokRepository,
@@ -28,15 +27,15 @@ public class DefaultAdminConfig {
     @PostConstruct
     public void createDefaultAdmin() {
         if (!felhasznalokRepository.existsByFelhasznaloNev("admin")) {
-            System.out.println("Admin user does not exist, creating admin...");
+            //System.out.println("Admin felhasználó nem létezik, ezért létrehozzuk.");
 
             // Default admin felhasználó létrehozása
             Felhasznalok admin = new Felhasznalok();
             admin.setFelhasznaloNev("admin");
             admin.setVezetekNev("Admin");
             admin.setKeresztNev("Admin");
-            admin.setEmail("admin@example.com");
-            admin.setJelszo(passwordEncoder.encode("admin123")); // Titkosított jelszó
+            admin.setEmail("admin@admin.hu");
+            admin.setJelszo("Start123");
             felhasznalokRepository.save(admin); // Előbb mentjük a felhasználót, hogy legyen ID-je
 
             // Admin jogosultság létrehozása
@@ -45,9 +44,8 @@ public class DefaultAdminConfig {
             adminJogosultsag.setFelhasznalo(admin); // Beállítjuk a felhasználót
             jogosultsagRepository.save(adminJogosultsag); // Mentjük a jogosultságot
 
-            System.out.println("Default admin user created: username='admin', password='admin123'");
         } else {
-            System.out.println("Admin user already exists.");
+            System.out.println("Admin felhasználó már létezik.");
         }
     }
 

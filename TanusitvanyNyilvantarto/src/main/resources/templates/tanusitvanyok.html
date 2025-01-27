@@ -422,83 +422,12 @@ DNS:
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/alapfunkciok.js"></script>
-<script src="/js/tanusitvanyok.js"></script>
-<script src="/js/tanusitvanyok_tablarendezes.js"></script>
-
-<script>
-    document.getElementById('tableSearch').addEventListener('input', function () {
-    const filter = this.value.toLowerCase();
-    const rows = document.querySelectorAll('table tbody tr');
-
-    rows.forEach(row => {
-        const cells = Array.from(row.getElementsByTagName('td'));
-        const matches = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
-        row.style.display = matches ? '' : 'none';
-    });
-});
-
-</script>
-<script>
-
-    function logout() {
-        alert("Sikeres kijelentkezés!");
-        // Ide jönne a kijelentkezés valódi megvalósítása (pl. URL átirányítás).
-    }
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const errorMessage = document.querySelector('.alert-danger');
-        if (errorMessage) {
-            const addModal = new bootstrap.Modal(document.getElementById('addModal'));
-            addModal.show();
-
-            // Modal bezárásakor töröljük az üzenetet
-            const modalElement = document.getElementById('addModal');
-            modalElement.addEventListener('hidden.bs.modal', function () {
-                errorMessage.textContent = ''; // Üzenet törlése
-                errorMessage.style.display = 'none'; // Hibaüzenet elrejtése
-            });
-        }
-    });
-</script>
-
-<script>
-    document.getElementById("newAddHostname").addEventListener("input", function (event) {
-        const query = this.value;
-
-        if (query.length > 1) {
-            fetch(`/autocomplete?query=${encodeURIComponent(query)}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    // Tárold a találatokat az input elemhez kapcsolva
-                    this.dataset.suggestions = JSON.stringify(data);
-
-                    // Ha vannak találatok, az első javaslatot állítsd be helyőrzőként
-                    if (data.length > 0) {
-                        this.placeholder = data[0];
-                    } else {
-                        this.placeholder = "";
-                    }
-                });
-        }
-    });
-
-    document.getElementById("newAddHostname").addEventListener("keydown", function (event) {
-        // Ha a `Tab` billentyűt nyomják meg, egészítsd ki az inputot az első találattal
-        if (event.key === "Tab") {
-            event.preventDefault(); // Ne váltson másik mezőre
-            const suggestions = JSON.parse(this.dataset.suggestions || "[]");
-            if (suggestions.length > 0) {
-                this.value = suggestions[0]; // Az első találat kiegészítése
-            }
-        }
-    });
-</script>
-<script>
-    document.querySelector(".export-btn").addEventListener("click", function () {
-        window.location.href = "/tanusitvanyok/export";
-    });
-</script>
+<script src="/js/tanusitvanyok/tanusitvanyok.js"></script>
+<script src="/js/tanusitvanyok/tanusitvanyok_tablarendezes.js"></script>
+<script src="/js/tanusitvanyok/tablazatkereses.js"></script>
+<script src="/js/tanusitvanyok/ModalerrorMessage.js" ></script>
+<script src="/js/tanusitvanyok/AutoComplete.js"></script>
+<script src="/js/tanusitvanyok/export.js"></script>
 
 </body>
 </html>
