@@ -7,11 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -52,20 +48,28 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**", "/bejelentkezes", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/felhasznalok").hasAnyRole("USER","ADMIN") // olvasás jog
+                        .requestMatchers("/felhasznalok/add", "felhasznalok/edit/**","felhasznalok/delete/**","felhasznalok/updatepw/**").hasAnyRole("ADMIN") // írás
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/bejelentkezes") // Saját bejelentkezési oldal
                         .loginProcessingUrl("/do-login") // A hitelesítés feldolgozásának URL-je
-                        .defaultSuccessUrl("/kezdolap", true) // Sikeres bejelentkezés után
-                        .failureUrl("/bejelentkezes?error=true") // Hibás hitelesítés után
+                        .defaultSuccessUrl("/kezdolap", true) // Sikeres bejelentkezés
+                        .failureUrl("/bejelentkezes?error=true") // Hibás hitelesítés
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/bejelentkezes?logout=true") // Kijelentkezés után
+                        .logoutSuccessUrl("/bejelentkezes?logout=true") // Kijelentkezés
                         .permitAll()
-                );
+                )
+                .exceptionHandling(exception -> exception
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    request.getSession().setAttribute("errorMessage", "Nincs jogosultságod a művelet végrehajtásához!");
+                    response.sendRedirect("/felhasznalok");
+                })
+        );
 
         return http.build();
     }

@@ -39,7 +39,7 @@ public class RiasztasokController {
                 .collect(Collectors.toList());
 
         model.addAttribute("riasztasok", riasztasok);
-        boolean shouldBlink = riasztasService.shouldBlink(); // Ellenőrzés a riasztásokhoz
+        boolean shouldBlink = riasztasService.shouldBlink();
         model.addAttribute("shouldBlink", shouldBlink);
         return "riasztasok";
     }

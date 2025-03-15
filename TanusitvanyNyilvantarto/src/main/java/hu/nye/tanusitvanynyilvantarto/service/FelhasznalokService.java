@@ -5,9 +5,13 @@ import hu.nye.tanusitvanynyilvantarto.entity.Jogosultsag;
 import hu.nye.tanusitvanynyilvantarto.model.FelhasznalokModel;
 import hu.nye.tanusitvanynyilvantarto.model.Szerepkor;
 import hu.nye.tanusitvanynyilvantarto.repository.FelhasznalokRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -84,6 +88,14 @@ public class FelhasznalokService {
         String hashedPassword = passwordEncoder.encode(ujJelszo);
         existingUser.setJelszo(hashedPassword);
         felhasznalokRepository.save(existingUser);
+    }
+    public boolean isCurrentUserAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            return authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        }
+        return false;
     }
 
     //Modelre kovertálás
