@@ -41,6 +41,24 @@
                 padding: 10px; /* Kisebb margók mobil nézethez */
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Gyengébb árnyék kisebb képernyőn */
             }
+            .sidebar .menu-links li a {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .sidebar .menu-links li a i {
+                font-size: 64px; /* nagyobb ikon */
+            }
+
+            .sidebar .menu-links li a .text {
+                display: none; /* elrejtjük a szöveget mobilon */
+            }
+
+            .sidebar li.dark-mode-toggle,
+            .sidebar li.logout {
+                position: static;
+                margin-top: 20px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -53,6 +71,8 @@
 </head>
 <body>
 <!------------------------------------------------ MENÜ ------------------------------------------------------------->
+
+
 <nav class="sidebar closed" id="sidebar">
     <button class="toggle-btn" onclick="toggleSidebar()">
         <i class='bx bxs-chevron-right-square' id="toggle-icon"></i>
@@ -100,6 +120,14 @@
         </li>
     </ul>
 </nav>
+
+<!-- Csak mobilon megjelenő hamburger ikon -->
+<div class="hamburger-menu d-md-none" onclick="toggleMobileSidebar()">
+    <i class='bx bx-menu'></i>
+</div>
+
+<!-- Overlay háttér -->
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 <!------------------------------------------------- MENÜ VÉGE ------------------------------------------------------->
 <section class="home">
     <div class="sectionkepernyo">

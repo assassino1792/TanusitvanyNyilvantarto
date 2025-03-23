@@ -204,6 +204,74 @@ color: black;
    overflow: hidden;
    box-shadow: 4px 4px;
 }
+/* Mobil hamburger menü gomb */
+.hamburger-menu {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 32px;
+    z-index: 1100;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    display: none;
+}
+
+/* Sötét overlay háttér, ha a menü nyitva van mobilon */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+}
+
+/* Mobil sidebar nyitás */
+.sidebar.mobile-open {
+    left: 0 !important;
+    z-index: 1101;
+}
+
+/* Overlay aktív állapot */
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* Mobil nézet beállítások */
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100%;
+        transition: left 0.3s ease;
+        z-index: 1001;
+    }
+
+    .sidebar.closed,
+    .sidebar.open {
+        width: 250px !important; /* Mobilon ne legyen zárva */
+    }
+
+    .toggle-btn {
+        display: none; /* Mobilon ne jelenjen meg a nyíl ikon */
+    }
+
+    .home {
+        margin-left: 0 !important; /* Mobilon ne legyen margin */
+    }
+}
+
 
 
 

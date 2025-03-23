@@ -85,6 +85,25 @@
             width: 100%; /* A mező szélessége igazodik a szülőelemhez */
             max-width: 300px; /* Maximális szélesség kisebb kijelzőn */
         }
+        .sidebar .menu-links li a {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .sidebar .menu-links li a i {
+                font-size: 64px;
+            }
+
+            .sidebar .menu-links li a .text {
+                display: none; /* elrejtjük a szöveget mobilon */
+            }
+
+            .sidebar li.dark-mode-toggle,
+            .sidebar li.logout {
+                position: static;
+                margin-top: 20px;
+            }
+        }
 
         .search-container {
             width: 100%; /* A keresőmezőt tartalmazó konténer is alkalmazkodik */
@@ -94,6 +113,14 @@
     </style>
 </head>
 <body>
+<!-- Csak mobilon megjelenő hamburger ikon -->
+<div class="hamburger-menu d-md-none" onclick="toggleMobileSidebar()">
+    <i class='bx bx-menu'></i>
+</div>
+
+<!-- Overlay háttér -->
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
 <nav class="sidebar closed" id="sidebar">
     <button class="toggle-btn" onclick="toggleSidebar()">
         <i class='bx bxs-chevron-right-square' id="toggle-icon"></i>
@@ -428,6 +455,7 @@ DNS:
 <script src="/js/tanusitvanyok/ModalerrorMessage.js" ></script>
 <script src="/js/tanusitvanyok/AutoComplete.js"></script>
 <script src="/js/tanusitvanyok/export.js"></script>
+
 
 </body>
 </html>

@@ -92,3 +92,21 @@ function getCookie(name) {
     }
     return "";
 }
+
+// mobil hamburger menü
+function toggleMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        sidebar.classList.toggle('mobile-open');
+        overlay.classList.toggle('active');
+    }
+
+function closeMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+    }
+
