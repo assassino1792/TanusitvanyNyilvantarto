@@ -9,7 +9,7 @@ public class ErtesitesService {
 
     public String getErtesitesiEmail(Tanusitvanyok tanusitvany) {
 
-       return "@gmail.com";
+       return "emailtanusitvanywebapp@gmail.com";
     }
 
     public String getErtesitesTartalom(Tanusitvanyok tanusitvany, UzenetTipus tipus) {

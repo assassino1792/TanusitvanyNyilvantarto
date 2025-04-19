@@ -15,7 +15,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
-        message.setFrom("@gmail.com");
+        message.setFrom("tanusitvanywebapp@gmail.com");
 
         mailSender.send(message);
     }
